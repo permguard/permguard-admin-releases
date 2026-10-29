@@ -16,6 +16,19 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
   <a href="https://github.com/permguard/permguard"><b>Permguard</b></a>
 </p>
 
+<p align="center">
+  <img src="assets/diagrams/deployment.png" alt="The deployment of a Permguard server, drawn by Permguard Admin from what the server publishes: Permguard Admin reaches the Host listener on 5443 over HTTP; inside the Server Host, the Control Plane on 6443 mirrors policies to the Data Plane on 7443, which ships decisions and events back; the Data Plane serves Cedar, Dogwood and Rego; below, the listeners control-http-grpc, data-http-grpc, host-api and telemetry." width="820">
+</p>
+
+<p align="center"><sub>Your server, drawn live: every plane, port, listener and flow, and how policies, decisions and events move between them.</sub></p>
+
+<p align="center">
+  <img src="assets/diagrams/manifest.png" alt="The manifest of the mission-control ledger as a diagram: the profiles api, app and temporal point to the partitions api-gateway, mission-app and launch-window, which run on Rego, Cedar and Dogwood." height="270">
+  <img src="assets/diagrams/cedar-schema.png" alt="A Cedar schema as a diagram: the actions BadgeIn, BadgeOut and Launch link their principal Nebula::Operator and their resource Nebula::Console, beside the input, output and context types." height="270">
+</p>
+
+<p align="center"><sub>Your policies, drawn: which profile asks which partition and runtime, and what each action is allowed to touch.</sub></p>
+
 **The desktop administration tool for the Permguard Control Plane.**
 
 > [!WARNING]
@@ -35,6 +48,15 @@ No terminal, no curl, no guessing.
 
 <p align="center">
   <img src="assets/sections.png" alt="Four sections. Explorer, observe: the Host and its planes, the live events, the decision logs. Ledgers, sync: clone, pull when the head moves, read files and commits. PDP, ask: compose a request and the data plane answers. Settings, connect: control planes, TLS, token files, theme and language." width="820">
+</p>
+
+### See your deployment at a glance
+
+Permguard Admin draws your server as it really is: the Host, the Control Plane and the Data Plane, their ports and listeners, and how policies, decisions and events flow between them.
+Click anything to read its details, double-click a plane to open it.
+
+<p align="center">
+  <img src="assets/screens/deployment.png" alt="The Deployment view: an all-in-one server with its Host listener, Control Plane, Data Plane and listeners, the flows between them, and the details of the selected Data Plane." width="820">
 </p>
 
 ### Follow every event, live
@@ -73,6 +95,14 @@ Clone the ones you care about in one click, and Permguard Admin tells you the mo
 
 <p align="center">
   <img src="assets/screens/sync-center.png" alt="The Sync Center: acme/main-ledger is on this computer and has a new version to pull; acme/payments and globex/gateway are on the server, each ready to clone." width="820">
+</p>
+
+### Read your policies as diagrams
+
+Open a manifest or a schema and switch it to Visual: profiles, partitions and runtimes, actions and the entities they act on, laid out as a map you can click through.
+
+<p align="center">
+  <img src="assets/screens/ledger-visual.png" alt="A ledger manifest opened as a diagram: three profiles pointing to their partitions and runtimes, one profile selected with its details." width="820">
 </p>
 
 ### Read every change to your policies
