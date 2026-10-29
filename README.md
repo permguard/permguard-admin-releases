@@ -23,8 +23,7 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 <p align="center"><sub>Your server, drawn live: every plane, port, listener and flow, and how policies, decisions and events move between them.</sub></p>
 
 <p align="center">
-  <img src="assets/diagrams/manifest.png" alt="The manifest of the mission-control ledger as a diagram: the profiles api, app and temporal point to the partitions api-gateway, mission-app and launch-window, which run on Rego, Cedar and Dogwood." height="270">
-  <img src="assets/diagrams/cedar-schema.png" alt="A Cedar schema as a diagram: the actions BadgeIn, BadgeOut and Launch link their principal Nebula::Operator and their resource Nebula::Console, beside the input, output and context types." height="270">
+  <img src="assets/diagrams/ledger-diagrams.png" alt="Two ledger files as diagrams. Left, the manifest of mission-control: the profiles api, app and temporal point to the partitions api-gateway, mission-app and launch-window, which run on Rego, Cedar and Dogwood. Right, a Cedar schema: the actions BadgeIn, BadgeOut and Launch link their principal Nebula::Operator and their resource Nebula::Console, beside the input, output and context types." width="820">
 </p>
 
 <p align="center"><sub>Your policies, drawn: which profile asks which partition and runtime, and what each action is allowed to touch.</sub></p>

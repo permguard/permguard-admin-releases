@@ -13,5 +13,6 @@ Open the playground's `workspace/` folder in Permguard Admin and the Benchmarks 
 | `checkout-peak` | the Rego payment gateway at a Black Friday peak, 16 calls in flight                 | 30 × 100 |
 | `refund-desk`   | the Cedar back office on a Monday morning, 8 calls in flight                        | 25 × 100 |
 
+Clone `commerce/order-platform` in the Sync Center before a run: the suites name the deciding policies by alias, and an alias is known only from a clone; without one, the decisions are still checked and the policies are reported as unverified.
 Every request is a real one: its expectation is what the published policies decide, with the policies that decide it, so a mismatch is a change in the policies, not in the suite.
 The same documents are valid for *Import* on the Policy Decision Point page and for `permguard check -f`.
