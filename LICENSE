@@ -1,0 +1,40 @@
+Permguard Admin — Binary License
+
+Copyright (c) 2022 Nitro Agility S.r.l. All rights reserved.
+
+1. Grant. Nitro Agility S.r.l. ("Licensor") grants you a free, non-exclusive,
+   non-transferable, revocable license to install and use the unmodified
+   Permguard Admin binaries published in this repository ("Software"), for
+   your own internal purposes.
+
+2. Restrictions. You may not, and may not allow others to:
+   a. redistribute, sell, rent, lease, sublicense or otherwise make the
+      Software available to third parties, including by mirroring the
+      installers or bundling them with other products;
+   b. modify, adapt, translate or create derivative works of the Software;
+   c. reverse engineer, decompile or disassemble the Software, except to the
+      extent applicable law expressly permits it notwithstanding this limit;
+   d. remove or alter any copyright, trademark or license notice.
+
+3. Third-party components. The Software includes open source components
+   licensed under their own terms, listed in THIRD-PARTY-NOTICES. Nothing in
+   this license limits your rights under those terms.
+
+4. Trademarks. No right is granted to use the names or logos of Permguard or
+   Nitro Agility S.r.l.
+
+5. No warranty. The Software is provided "as is", without warranty of any
+   kind, express or implied, including merchantability, fitness for a
+   particular purpose and non-infringement.
+
+6. Limitation of liability. To the maximum extent permitted by law, the
+   Licensor is not liable for any damages arising from the use of, or the
+   inability to use, the Software.
+
+7. Termination. This license ends automatically if you breach it; you must
+   then stop using and delete the Software.
+
+8. Governing law. This license is governed by the laws of Italy; the courts
+   of [CITY] have exclusive jurisdiction.
+
+Contact: [EMAIL]
