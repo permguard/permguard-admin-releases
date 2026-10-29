@@ -118,6 +118,7 @@ shasum -a 256 -c checksums.txt --ignore-missing
 On macOS, from the same tap as the Permguard command line:
 
 ```sh
+brew trust permguard/tap      # once: Homebrew 7 loads casks only from trusted taps
 brew install permguard/tap/permguard-admin
 ```
 
@@ -190,6 +191,7 @@ Permguard Admin works with the Permguard command line, which it uses to talk to 
 Installed with Homebrew, it is already there; otherwise install it first:
 
 ```sh
+brew trust permguard/tap      # once, if not done already
 brew install permguard/tap/permguard-cli
 ```
 
