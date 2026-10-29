@@ -46,7 +46,7 @@ No terminal, no curl, no guessing.
 ## What you can do
 
 <p align="center">
-  <img src="assets/sections.png" alt="Four sections. Explorer, observe: the Host and its planes, the live events, the decision logs. Ledgers, sync: clone, pull when the head moves, read files and commits. PDP, ask: compose a request and the data plane answers. Settings, connect: control planes, TLS, token files, theme and language." width="820">
+  <img src="assets/sections.png" alt="Four sections. Explorer, observe: the Host and its planes, the live events, the decision logs. Ledgers, sync: clone with the CLI, pull when the head moves, read files and commits. Evaluations, ask and load: ask the data plane, run real suites as load, check every decision. Settings, connect: control planes, TLS, token files, theme and language." width="820">
 </p>
 
 ### See your deployment at a glance
@@ -127,13 +127,29 @@ Every commit shows its diff, line by line.
 Write a request, or import one from a JSON file, pick the ledger and the profile, and ask your data plane directly.
 The answer comes back next to it, with the policies that decided it, how long it took, and the command line to ask the same thing again from a script.
 
+<p align="center">
+  <img src="assets/screens/evaluation.png" alt="The Policy Decision Point page: a request for User alice to read Document budget-2026, and the answer of the data plane: permit, by document-readers and gateway-access, in 2 ms." width="820">
+</p>
+
+### Load-test your policies
+
 Then put it under load.
 Open a benchmark suite, a folder of real requests with the decision each one must get, and Permguard Admin runs it against your data plane in parallel, round after round, drawing every call as it happens and telling you whether the decisions and the latencies held.
+Every answer is checked against the decision and the policies it should get, so a policy change that breaks a rule shows up as an unexpected decision, not as a surprise in production.
 The playground ships three suites to start from.
 
 <p align="center">
-  <img src="assets/screens/evaluation.png" alt="The Policy Decision Point page: a request for User alice to read Document budget-2026, and the answer of the data plane: permit, by document-readers and gateway-access, in 41 ms." width="820">
+  <img src="assets/screens/benchmarks.png" alt="The Benchmarks page after the Refund desk suite: 2,500 calls, a median of 1.29 ms and a p95 of 3.27 ms, no errors, no unexpected decisions, and the verdict Passed, with calls per second and response time over the run." width="820">
 </p>
+
+<details>
+<summary><b>Every request of the suite, with its own figures</b></summary>
+
+<p align="center">
+  <img src="assets/screens/benchmarks-mix.png" alt="The Mix of the Refund desk suite: each request with the decision and policies it expects, how many calls it made, and its own latency, about 1.3 ms." width="820">
+</p>
+
+</details>
 
 ### Connect to all your Control Planes
 
