@@ -18,8 +18,13 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 
 **The desktop administration tool for the Permguard Control Plane.**
 
+> [!WARNING]
+> **Preview.** Permguard Admin is a preview release, not yet stable.
+> Screens and behaviour may change from one version to the next, and some features are still experimental.
+> Try it on development and test environments, and tell us what you find in the [issues](https://github.com/permguard/permguard-admin-releases/issues).
+
 Permguard Admin is for the people who administer [Permguard](https://github.com/permguard/permguard).
-Connect it to your Control Planes and manage them from one window: the server that hosts them, the ledgers and policies they serve, the decisions they record.
+Connect it to your Control Planes and manage them from one window: the server that hosts them, the ledgers and policies they serve, the events and decisions they record.
 No terminal, no curl, no guessing.
 
 <p align="center">
@@ -29,8 +34,28 @@ No terminal, no curl, no guessing.
 ## What you can do
 
 <p align="center">
-  <img src="assets/sections.png" alt="Four sections. Explorer, observe: the Host and its planes, each document as a table, the decision logs. Ledgers, sync: clone, pull when the head moves, read files and commits. PDP, ask: compose a request and the data plane answers. Settings, connect: control planes, TLS, token files, theme and language." width="820">
+  <img src="assets/sections.png" alt="Four sections. Explorer, observe: the Host and its planes, the live events, the decision logs. Ledgers, sync: clone, pull when the head moves, read files and commits. PDP, ask: compose a request and the data plane answers. Settings, connect: control planes, TLS, token files, theme and language." width="820">
 </p>
+
+### Follow every event, live
+
+Everything your data planes record, as it happens, in a stream you can read like logs.
+A timeline shows the requests, responses and errors over the period you choose, from the last five minutes to the last thirty days.
+Spot a spike, drag across it to zoom in, and the list below shows just those events.
+Open any event to see when it happened, under which policies and commit, and its full payload.
+
+<p align="center">
+  <img src="assets/screens/events.png" alt="The Events page over the last hour: requests, responses and errors on a stacked timeline with two bursts; below, the live stream, newest first, and one event open with its type, times, ledger, profile, commit and history key." width="820">
+</p>
+
+<details>
+<summary><b>Zoom into a spike</b></summary>
+
+<p align="center">
+  <img src="assets/screens/events-zoom.png" alt="The Events page zoomed into eleven minutes by dragging on the timeline: the pointer over one bar shows its counts by kind, and the stream lists only the events of that period." width="820">
+</p>
+
+</details>
 
 ### See every decision
 
