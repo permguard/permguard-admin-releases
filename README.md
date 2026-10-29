@@ -6,7 +6,7 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 # Permguard Admin
 
 <p align="center">
-  <img src="assets/hero.png" alt="Permguard Admin. The Control Plane, administered. The desktop administration tool for Permguard. For macOS, Linux and Windows, free download." width="820">
+  <img src="assets/hero-preview.png" alt="Permguard Admin, preview. The Control Plane, administered. The desktop administration tool for Permguard. For macOS, Linux and Windows, free download." width="820">
 </p>
 
 <p align="center">
