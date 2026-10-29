@@ -113,6 +113,65 @@ shasum -a 256 -c checksums.txt --ignore-missing
 
 ## Install
 
+### With Homebrew
+
+On macOS, from the same tap as the Permguard command line:
+
+```sh
+brew install --cask permguard/tap/permguard-admin
+```
+
+It installs the command line too, which Permguard Admin needs.
+To install a given version, `brew install --cask permguard/tap/permguard-admin@0.0.2`; to update, `brew upgrade --cask permguard-admin`.
+
+### With one command
+
+The install scripts download the latest release, check it against `checksums.txt`, and install it.
+
+**macOS and Linux:**
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/permguard/permguard-admin-releases/main/install.sh | sh
+```
+
+**Windows**, in PowerShell:
+
+```powershell
+irm https://raw.githubusercontent.com/permguard/permguard-admin-releases/main/install.ps1 | iex
+```
+
+To install a given version, pass it to the script:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/permguard/permguard-admin-releases/main/install.sh | sh -s -- v0.0.2
+```
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/permguard/permguard-admin-releases/main/install.ps1))) -Version v0.0.2
+```
+
+To read the script before running it, download it first, then run it:
+
+```sh
+curl -fsSLO https://raw.githubusercontent.com/permguard/permguard-admin-releases/main/install.sh
+sh install.sh            # the latest release
+sh install.sh v0.0.2     # a given version
+```
+
+```powershell
+irm https://raw.githubusercontent.com/permguard/permguard-admin-releases/main/install.ps1 -OutFile install.ps1
+powershell -ExecutionPolicy Bypass -File .\install.ps1                    # the latest release
+powershell -ExecutionPolicy Bypass -File .\install.ps1 -Version v0.0.2    # a given version
+```
+
+| System  | What the script installs                                                                                                                       |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| macOS   | the application, into `/Applications`, or `~/Applications` when that is not writable                                                           |
+| Linux   | the `.deb` or the `.rpm`, whichever your system uses, otherwise the `.AppImage` in `~/.local/bin`; `-t deb`, `-t rpm` or `-t appimage` chooses |
+| Windows | the setup, for your user, without administrator rights; `-Installer msi` installs the `.msi` for the whole machine                             |
+
+### By hand
+
 **macOS.**
 Open the `.dmg` and drag Permguard Admin into Applications.
 
@@ -128,7 +187,7 @@ If your system asks for confirmation the first time you open the application, co
 ## Before you start
 
 Permguard Admin works with the Permguard command line, which it uses to talk to your servers.
-Install it first:
+Installed with Homebrew, it is already there; otherwise install it first:
 
 ```sh
 brew install permguard/tap/cli
