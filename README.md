@@ -118,11 +118,11 @@ shasum -a 256 -c checksums.txt --ignore-missing
 On macOS, from the same tap as the Permguard command line:
 
 ```sh
-brew install --cask permguard/tap/permguard-admin
+brew install permguard/tap/permguard-admin
 ```
 
 It installs the command line too, which Permguard Admin needs.
-To install a given version, `brew install --cask permguard/tap/permguard-admin@0.0.2`; to update, `brew upgrade --cask permguard-admin`.
+To install a given version, `brew install permguard/tap/permguard-admin@0.1.0`; to update, `brew upgrade permguard-admin`.
 
 ### With one command
 
@@ -190,7 +190,7 @@ Permguard Admin works with the Permguard command line, which it uses to talk to 
 Installed with Homebrew, it is already there; otherwise install it first:
 
 ```sh
-brew install permguard/tap/cli
+brew install permguard/tap/permguard-cli
 ```
 
 Other ways to install it are in the [Permguard documentation](https://docs.permguard.com/).
