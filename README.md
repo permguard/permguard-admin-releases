@@ -6,7 +6,7 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 # Permguard Admin
 
 <p align="center">
-  <img src="assets/hero.png" alt="Permguard Admin. Your deployment, on your desk. Observe the server, sync the ledgers, ask the PDP. For macOS, Linux and Windows, free download." width="820">
+  <img src="assets/hero.png" alt="Permguard Admin. The Control Plane, administered. The desktop administration tool for Permguard. For macOS, Linux and Windows, free download." width="820">
 </p>
 
 <p align="center">
@@ -16,10 +16,10 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
   <a href="https://github.com/permguard/permguard"><b>Permguard</b></a>
 </p>
 
-**Your Permguard deployment, on your desk.**
+**The desktop administration tool for the Permguard Control Plane.**
 
-Permguard Admin is the desktop application for the people who run [Permguard](https://github.com/permguard/permguard).
-Connect it to your servers and see, in one window, what they serve, which policies they hold and how they decide.
+Permguard Admin is for the people who administer [Permguard](https://github.com/permguard/permguard).
+Connect it to your Control Planes and manage them from one window: the server that hosts them, the ledgers and policies they serve, the decisions they record.
 No terminal, no curl, no guessing.
 
 <p align="center">
@@ -77,9 +77,9 @@ The answer comes back next to it, with the policies that decided it, how long it
   <img src="assets/screens/evaluation.png" alt="The Policy evaluation page: a request for User alice to read Document budget-2026, and the answer of the data plane: permit, by document-readers and gateway-access, in 41 ms." width="820">
 </p>
 
-### Connect to all your environments
+### Connect to all your Control Planes
 
-Add your local server, staging and production side by side, over HTTP or gRPC, with TLS, mutual TLS and bearer tokens.
+Add your local Control Plane, staging and production side by side, over HTTP or gRPC, with TLS, mutual TLS and bearer tokens.
 Switch between them from the top bar; a dot tells you at a glance which ones are online.
 
 <p align="center">
