@@ -20,8 +20,8 @@ if [ -f "${pid_file}" ]; then
 fi
 
 if curl --fail --silent --output /dev/null \
-    http://127.0.0.1:5543/.well-known/server-configuration 2>/dev/null; then
-    printf 'error: another Permguard server is already listening on 127.0.0.1:5543\n' >&2
+    http://127.0.0.1:5443/.well-known/server-configuration 2>/dev/null; then
+    printf 'error: another Permguard server is already listening on 127.0.0.1:5443\n' >&2
     printf 'Stop that server or change this playground port set; it will not be reused blindly.\n' >&2
     exit 69
 fi
@@ -32,7 +32,7 @@ printf '%s\n' "${pid}" >"${pid_file}"
 
 for _ in $(seq 1 120); do
     if curl --fail --silent --output /dev/null \
-        http://127.0.0.1:5543/.well-known/server-configuration 2>/dev/null; then
+        http://127.0.0.1:5443/.well-known/server-configuration 2>/dev/null; then
         printf 'Permguard all-in-one is ready (pid %s, log %s).\n' "${pid}" "${log_file}"
         exit 0
     fi

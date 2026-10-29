@@ -12,8 +12,8 @@ case "${stream_type}" in
 esac
 
 ledger_workspace="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-control_endpoint="${PERMGUARD_CONTROL_ENDPOINT:-http://127.0.0.1:6543}"
-admin_endpoint="${PERMGUARD_ADMIN_ENDPOINT:-https://127.0.0.1:5544}"
+control_endpoint="${PERMGUARD_CONTROL_ENDPOINT:-http://127.0.0.1:6443}"
+admin_endpoint="${PERMGUARD_ADMIN_ENDPOINT:-https://127.0.0.1:5444}"
 tls_ca_file="${PERMGUARD_TLS_CA_FILE:-${ledger_workspace}/.volume/all-in-one/tls/ca.pem}"
 
 control() {

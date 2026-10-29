@@ -8,7 +8,7 @@ action="${1:-help}"
 source_workspace=/playground
 runtime_workspace=/work/permguard
 cli=/usr/local/bin/permguard
-host_endpoint="${PERMGUARD_HOST_ENDPOINT:-http://127.0.0.1:5543}"
+host_endpoint="${PERMGUARD_HOST_ENDPOINT:-http://127.0.0.1:5443}"
 
 wait_for_server() {
     printf 'Waiting for the Permguard Host'

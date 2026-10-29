@@ -6,8 +6,8 @@ set -euo pipefail
 
 cli="${1:?usage: bootstrap.sh <permguard> <ledger-workspace>}"
 workspace="$(cd "${2:?usage: bootstrap.sh <permguard> <ledger-workspace>}" && pwd)"
-control_endpoint="${PERMGUARD_CONTROL_ENDPOINT:-http://127.0.0.1:6543}"
-data_endpoint="${PERMGUARD_DATA_ENDPOINT:-http://127.0.0.1:7543}"
+control_endpoint="${PERMGUARD_CONTROL_ENDPOINT:-http://127.0.0.1:6443}"
+data_endpoint="${PERMGUARD_DATA_ENDPOINT:-http://127.0.0.1:7443}"
 
 for dependency in jq curl; do
     command -v "${dependency}" >/dev/null 2>&1 || {

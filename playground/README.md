@@ -141,10 +141,11 @@ $env:PERMGUARD_VERSION = "0.1.6"
 ## Explore it with Permguard Admin
 
 Keep the server running and open the installed Permguard Admin application. Select the empty
-`playground/workspace` folder. Add a local Control Plane entry for the playground Host at
-`http://127.0.0.1:5543`; clone `order-platform` from the `commerce` zone to inspect the manifest,
-policies, decisions, and events. The playground deliberately uses 55xx/65xx/75xx ports so it can run
-beside a Permguard development server on the standard ports.
+`playground/workspace` folder. The standard `local` Control Plane at `http://127.0.0.1:5443`
+becomes active automatically; clone `order-platform` from the `commerce` zone to inspect the
+manifest, policies, decisions, and events. The playground binds the standard Host discovery,
+control-plane, and data-plane ports (`5443`, `6443`, and `7443`) to host loopback. The protected Host
+TLS listener stays on container loopback at its standard `5444` port.
 
 The committed `playground/workspace/.keep` is only a placeholder. Everything the application writes
 below that folder is intentionally ignored.

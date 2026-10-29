@@ -14,7 +14,7 @@ experimental:
   dogwood: { enabled: "true" }
 
 host:
-  addr: 127.0.0.1:5543
+  addr: 127.0.0.1:5443
   authz:
     public:
       - operations: [catalog.read, catalog.write, policy.push, evidence.read]
@@ -23,15 +23,15 @@ host:
         selector: "plane/data/*"
 
 admin:
-  addr: 127.0.0.1:5544
+  addr: 127.0.0.1:5444
   tls: { cert: tls/server.pem, key: tls/server.key }
 
 runtime: { planes: [control, data] }
 
 controlPlane:
   public:
-    http: { enabled: true, addr: 127.0.0.1:6543 }
-    grpc: { enabled: true, addr: 127.0.0.1:6543 }
+    http: { enabled: true, addr: 127.0.0.1:6443 }
+    grpc: { enabled: true, addr: 127.0.0.1:6443 }
   storage:
     gc: { enabled: "true", interval: "5m", grace: "15m" }
   decisions:
@@ -45,8 +45,8 @@ controlPlane:
 
 dataPlane:
   public:
-    http: { enabled: true, addr: 127.0.0.1:7543 }
-    grpc: { enabled: true, addr: 127.0.0.1:7543 }
+    http: { enabled: true, addr: 127.0.0.1:7443 }
+    grpc: { enabled: true, addr: 127.0.0.1:7443 }
   mirrors:
     enabled: "true"
     interval: "2s"
@@ -57,7 +57,7 @@ dataPlane:
     max_evaluations: "64"
     log:
       enabled: "true"
-      server: { url: "http://127.0.0.1:6543" }
+      server: { url: "http://127.0.0.1:6443" }
       spool: { directory: data/decisions/spool, bytes: "64M", age: "24h" }
       batch: { bytes: "256k", interval: "1s" }
       mode: required
@@ -78,7 +78,7 @@ dataPlane:
       minimum: "48h"
       allowed_lateness: "5m"
       clock_skew: "30s"
-    destination: { url: "http://127.0.0.1:6543" }
+    destination: { url: "http://127.0.0.1:6443" }
     pull: { mode: local }
 
 operations:

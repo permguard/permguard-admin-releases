@@ -6,7 +6,7 @@ set -euo pipefail
 
 cli="${1:?usage: run-demo.sh <permguard> <ledger-workspace>}"
 workspace="$(cd "${2:?usage: run-demo.sh <permguard> <ledger-workspace>}" && pwd)"
-data_endpoint="${PERMGUARD_DATA_ENDPOINT:-http://127.0.0.1:7543}"
+data_endpoint="${PERMGUARD_DATA_ENDPOINT:-http://127.0.0.1:7443}"
 session="atlas-refund-$(date +%s)-$$"
 principal="AtlasCommerce::Workflow::\"${session}\""
 response_file="$(mktemp "${TMPDIR:-/tmp}/permguard-atlas-response.XXXXXX")"

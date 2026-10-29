@@ -9,21 +9,21 @@ services:
     command: ["/etc/permguard/config.yml"]
     environment:
       PERMGUARD_WORKING_DIR: /var/lib/permguard
-      PERMGUARD_TELEMETRY_ADDR: 0.0.0.0:5543
-      PERMGUARD_TELEMETRY_ADVERTISED_URL: http://127.0.0.1:5543
-      PERMGUARD_CONTROL_HTTP_ADDR: 0.0.0.0:6543
-      PERMGUARD_CONTROL_HTTP_ADVERTISED_URL: http://127.0.0.1:6543
-      PERMGUARD_CONTROL_GRPC_ADDR: 0.0.0.0:6543
-      PERMGUARD_DATA_HTTP_ADDR: 0.0.0.0:7543
-      PERMGUARD_DATA_HTTP_ADVERTISED_URL: http://127.0.0.1:7543
-      PERMGUARD_DATA_GRPC_ADDR: 0.0.0.0:7543
+      PERMGUARD_TELEMETRY_ADDR: 0.0.0.0:5443
+      PERMGUARD_TELEMETRY_ADVERTISED_URL: http://127.0.0.1:5443
+      PERMGUARD_CONTROL_HTTP_ADDR: 0.0.0.0:6443
+      PERMGUARD_CONTROL_HTTP_ADVERTISED_URL: http://127.0.0.1:6443
+      PERMGUARD_CONTROL_GRPC_ADDR: 0.0.0.0:6443
+      PERMGUARD_DATA_HTTP_ADDR: 0.0.0.0:7443
+      PERMGUARD_DATA_HTTP_ADVERTISED_URL: http://127.0.0.1:7443
+      PERMGUARD_DATA_GRPC_ADDR: 0.0.0.0:7443
     volumes:
       - ./permguard/server.yml:/etc/permguard/config.yml:ro
       - permguard-data:/var/lib/permguard
     ports:
-      - "127.0.0.1:5543:5543"
-      - "127.0.0.1:6543:6543"
-      - "127.0.0.1:7543:7543"
+      - "127.0.0.1:5443:5443"
+      - "127.0.0.1:6443:6443"
+      - "127.0.0.1:7443:7443"
     cap_drop: [ALL]
     security_opt: ["no-new-privileges:true"]
     restart: unless-stopped
@@ -42,10 +42,10 @@ services:
         condition: service_started
     network_mode: service:permguard
     environment:
-      PERMGUARD_HOST_ENDPOINT: http://127.0.0.1:5543
-      PERMGUARD_CONTROL_ENDPOINT: http://127.0.0.1:6543
-      PERMGUARD_DATA_ENDPOINT: http://127.0.0.1:7543
-      PERMGUARD_ADMIN_ENDPOINT: https://127.0.0.1:5544
+      PERMGUARD_HOST_ENDPOINT: http://127.0.0.1:5443
+      PERMGUARD_CONTROL_ENDPOINT: http://127.0.0.1:6443
+      PERMGUARD_DATA_ENDPOINT: http://127.0.0.1:7443
+      PERMGUARD_ADMIN_ENDPOINT: https://127.0.0.1:5444
       PERMGUARD_TLS_CA_FILE: /var/lib/permguard/tls/ca.pem
     volumes:
       - ./permguard:/playground:ro

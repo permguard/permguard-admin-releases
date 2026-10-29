@@ -170,8 +170,8 @@ task playground:docker:demo
 
 On Windows, run `.\playground\Playground.ps1 demo` from PowerShell. The workflow pulls the official
 Permguard `latest` images, publishes the ledger, sends the example requests and events, and prints
-both durable evidence streams. The playground uses its own loopback ports, so it can run beside a
-server on Permguard's standard development ports. See the playground README for version pinning,
+both durable evidence streams. The playground uses Permguard's standard loopback ports, so
+Permguard Admin discovers it as the local server. See the playground README for version pinning,
 individual loading steps, and cleanup commands. To uninstall every playground container, volume,
 network and selected image, run `task playground:docker:destroy`, `make playground-docker-destroy`,
 or `.\playground\Playground.ps1 destroy`.
