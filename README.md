@@ -236,4 +236,5 @@ Then start Permguard Admin, choose a folder for your workspace, and connect it t
 ## License
 
 Permguard Admin is free to download and use under the terms in [LICENSE](LICENSE).
+The open source components it includes, and their licences, are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
 Permguard® is a registered trademark of Nitro Agility S.r.l.

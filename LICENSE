@@ -17,7 +17,7 @@ Copyright (c) 2022 Nitro Agility S.r.l. All rights reserved.
    d. remove or alter any copyright, trademark or license notice.
 
 3. Third-party components. The Software includes open source components
-   licensed under their own terms, listed in THIRD-PARTY-NOTICES. Nothing in
+   licensed under their own terms, listed in THIRD_PARTY_NOTICES.md. Nothing in
    this license limits your rights under those terms.
 
 4. Trademarks. No right is granted to use the names or logos of Permguard or
@@ -35,6 +35,6 @@ Copyright (c) 2022 Nitro Agility S.r.l. All rights reserved.
    then stop using and delete the Software.
 
 8. Governing law. This license is governed by the laws of Italy; the courts
-   of [CITY] have exclusive jurisdiction.
+   of Matera have exclusive jurisdiction.
 
-Contact: [EMAIL]
+Contact: opensource@permguard.com
