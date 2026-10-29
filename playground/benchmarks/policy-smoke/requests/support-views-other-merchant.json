@@ -1,0 +1,100 @@
+{
+  "profile": "operations",
+  "subject": {
+    "type": "Operator",
+    "id": "bob.support"
+  },
+  "action": {
+    "name": "view"
+  },
+  "resource": {
+    "type": "Order",
+    "id": "order-2026-2210"
+  },
+  "context": {},
+  "partition_inputs": {
+    "order-operations": {
+      "type": "permguard.cedar.entities.v1",
+      "data": [
+        {
+          "uid": {
+            "type": "Merchant",
+            "id": "merchant-eu-42"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Merchant",
+            "id": "merchant-us-7"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Role",
+            "id": "support-agents"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Role",
+            "id": "finance-analysts"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Role",
+            "id": "finance-managers"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Operator",
+            "id": "bob.support"
+          },
+          "attrs": {
+            "merchant": {
+              "__entity": {
+                "type": "Merchant",
+                "id": "merchant-eu-42"
+              }
+            }
+          },
+          "parents": [
+            {
+              "type": "Role",
+              "id": "support-agents"
+            }
+          ]
+        },
+        {
+          "uid": {
+            "type": "Order",
+            "id": "order-2026-2210"
+          },
+          "attrs": {
+            "merchant": {
+              "__entity": {
+                "type": "Merchant",
+                "id": "merchant-us-7"
+              }
+            },
+            "amountCents": 48000,
+            "status": "paid",
+            "customerId": "customer-7781"
+          },
+          "parents": []
+        }
+      ]
+    }
+  }
+}

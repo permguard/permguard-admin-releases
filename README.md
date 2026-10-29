@@ -125,11 +125,15 @@ Every commit shows its diff, line by line.
 
 ### Ask before you ship
 
-Write a request, pick the ledger and the profile, and ask your data plane directly.
+Write a request, or import one from a JSON file, pick the ledger and the profile, and ask your data plane directly.
 The answer comes back next to it, with the policies that decided it, how long it took, and the command line to ask the same thing again from a script.
 
+Then put it under load.
+Open a benchmark suite, a folder of real requests with the decision each one must get, and Permguard Admin runs it against your data plane in parallel, round after round, drawing every call as it happens and telling you whether the decisions and the latencies held.
+The playground ships three suites to start from.
+
 <p align="center">
-  <img src="assets/screens/evaluation.png" alt="The Policy evaluation page: a request for User alice to read Document budget-2026, and the answer of the data plane: permit, by document-readers and gateway-access, in 41 ms." width="820">
+  <img src="assets/screens/evaluation.png" alt="The Policy Decision Point page: a request for User alice to read Document budget-2026, and the answer of the data plane: permit, by document-readers and gateway-access, in 41 ms." width="820">
 </p>
 
 ### Connect to all your Control Planes
@@ -149,6 +153,28 @@ English, Italiano, Español and Français.
 <p align="center">
   <img src="assets/screens/themes.png" alt="The Observe page in dark and light, side by side." width="820">
 </p>
+
+## Try a real policy set
+
+The [Atlas Commerce playground](playground/README.md) runs a complete order-to-refund scenario on a
+local Permguard server. Its ledger combines Rego payment API controls, Cedar back-office roles, and a
+Dogwood workflow whose refund decision changes from deny to permit and back to deny as approval and
+cancellation events arrive.
+
+With Docker Desktop or Docker Engine with the Compose plugin:
+
+```sh
+task playground:docker:demo
+# or: make playground-docker-demo
+```
+
+On Windows, run `.\playground\Playground.ps1 demo` from PowerShell. The workflow pulls the official
+Permguard `latest` images, publishes the ledger, sends the example requests and events, and prints
+both durable evidence streams. The playground uses its own loopback ports, so it can run beside a
+server on Permguard's standard development ports. See the playground README for version pinning,
+individual loading steps, and cleanup commands. To uninstall every playground container, volume,
+network and selected image, run `task playground:docker:destroy`, `make playground-docker-destroy`,
+or `.\playground\Playground.ps1 destroy`.
 
 ## Download
 

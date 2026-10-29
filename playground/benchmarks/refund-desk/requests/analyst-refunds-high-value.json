@@ -1,0 +1,96 @@
+{
+  "profile": "operations",
+  "subject": {
+    "type": "Operator",
+    "id": "carla.finance"
+  },
+  "action": {
+    "name": "refund"
+  },
+  "resource": {
+    "type": "Order",
+    "id": "order-2026-3301"
+  },
+  "context": {
+    "amountCents": 89000,
+    "reason": "damaged-shipment",
+    "mfa": true
+  },
+  "partition_inputs": {
+    "order-operations": {
+      "type": "permguard.cedar.entities.v1",
+      "data": [
+        {
+          "uid": {
+            "type": "Merchant",
+            "id": "merchant-eu-42"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Role",
+            "id": "support-agents"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Role",
+            "id": "finance-analysts"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Role",
+            "id": "finance-managers"
+          },
+          "attrs": {},
+          "parents": []
+        },
+        {
+          "uid": {
+            "type": "Operator",
+            "id": "carla.finance"
+          },
+          "attrs": {
+            "merchant": {
+              "__entity": {
+                "type": "Merchant",
+                "id": "merchant-eu-42"
+              }
+            }
+          },
+          "parents": [
+            {
+              "type": "Role",
+              "id": "finance-analysts"
+            }
+          ]
+        },
+        {
+          "uid": {
+            "type": "Order",
+            "id": "order-2026-3301"
+          },
+          "attrs": {
+            "merchant": {
+              "__entity": {
+                "type": "Merchant",
+                "id": "merchant-eu-42"
+              }
+            },
+            "amountCents": 189000,
+            "status": "paid",
+            "customerId": "customer-7781"
+          },
+          "parents": []
+        }
+      ]
+    }
+  }
+}

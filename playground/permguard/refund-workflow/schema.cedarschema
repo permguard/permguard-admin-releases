@@ -1,0 +1,43 @@
+// Copyright (c) 2022 Nitro Agility S.r.l.
+// SPDX-License-Identifier: Apache-2.0
+
+namespace AtlasCommerce {
+  type RefundInput = {
+    orderId: String,
+    caseId: String,
+    amountCents: Long,
+    currency: String,
+  };
+  type RefundRequestedOutput = {};
+  type RiskReviewOutput = { riskScore: Long };
+  type CancellationOutput = { reason: String };
+  type ReleaseOutput = {};
+  type SystemContext = { now: datetime };
+
+  entity Workflow = { name: String };
+  entity Order;
+
+  action "RefundRequested" appliesTo {
+    principal: [Workflow],
+    resource: [Order],
+    context: { input: RefundInput, output?: RefundRequestedOutput, system: SystemContext }
+  };
+
+  action "RiskReviewApproved" appliesTo {
+    principal: [Workflow],
+    resource: [Order],
+    context: { input: RefundInput, output?: RiskReviewOutput, system: SystemContext }
+  };
+
+  action "RefundCancelled" appliesTo {
+    principal: [Workflow],
+    resource: [Order],
+    context: { input: RefundInput, output?: CancellationOutput, system: SystemContext }
+  };
+
+  action "ReleaseRefund" appliesTo {
+    principal: [Workflow],
+    resource: [Order],
+    context: { input: RefundInput, output?: ReleaseOutput, system: SystemContext }
+  };
+}

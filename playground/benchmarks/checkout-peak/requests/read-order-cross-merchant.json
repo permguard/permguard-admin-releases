@@ -1,0 +1,29 @@
+{
+  "profile": "gateway",
+  "subject": {
+    "type": "ServiceAccount",
+    "id": "zendesk-integration",
+    "properties": {
+      "service": "support-integration",
+      "merchant": "merchant-eu-42",
+      "mtls_verified": true,
+      "scopes": [
+        "orders:read"
+      ]
+    }
+  },
+  "action": {
+    "name": "api:readOrder"
+  },
+  "resource": {
+    "type": "Order",
+    "id": "order-2026-2210",
+    "properties": {
+      "merchant": "merchant-us-7"
+    }
+  },
+  "context": {
+    "method": "GET",
+    "route": "/orders/order-2026-2210"
+  }
+}

@@ -337,3 +337,12 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/osx,linux,windows,visualstudiocode,intellij+all,rust,node
 
 .tokensave/
+
+# Permguard playground runtime state. Keep the reproducible sources, not the
+# generated ledger metadata, server volume, logs, pids, or Admin workspace.
+playground/permguard/.permguard/
+playground/permguard/.volume/
+playground/permguard/*.pid
+playground/permguard/*.log
+playground/workspace/*
+!playground/workspace/.keep

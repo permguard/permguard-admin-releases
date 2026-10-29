@@ -1,0 +1,17 @@
+// Copyright (c) 2022 Nitro Agility S.r.l.
+// SPDX-License-Identifier: Apache-2.0
+
+// A cancellation is an explicit deny and therefore overrides the release
+// permit. Keeping the invalidating condition separate makes deny precedence
+// visible in both the policy set and the resulting decision evidence.
+@id("cancelled_refund_cannot_release")
+forbid (
+    principal,
+    action == AtlasCommerce::Action::"ReleaseRefund",
+    resource
+)
+when temporal {
+    formerly within 24h AtlasCommerce::Action::"RefundCancelled"::response{
+        input.orderId: context.input.orderId
+    }
+};

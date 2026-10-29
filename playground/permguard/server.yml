@@ -1,0 +1,97 @@
+# Copyright (c) 2022 Nitro Agility S.r.l.
+# SPDX-License-Identifier: Apache-2.0
+
+# A loopback-only development server. Dogwood and both evidence surfaces are
+# explicit because the temporal API is experimental and must never turn on by
+# accident in a production configuration.
+development_mode: true
+autogenerate: true
+assurance: { profile: development }
+working_dir: permguard/.volume/all-in-one
+
+log: { level: info, format: terminal }
+experimental:
+  dogwood: { enabled: "true" }
+
+host:
+  addr: 127.0.0.1:5543
+  authz:
+    public:
+      - operations: [catalog.read, catalog.write, policy.push, evidence.read]
+        selector: "plane/control/*"
+      - operations: [decision.evaluate, event.submit, streams.read]
+        selector: "plane/data/*"
+
+admin:
+  addr: 127.0.0.1:5544
+  tls: { cert: tls/server.pem, key: tls/server.key }
+
+runtime: { planes: [control, data] }
+
+controlPlane:
+  public:
+    http: { enabled: true, addr: 127.0.0.1:6543 }
+    grpc: { enabled: true, addr: 127.0.0.1:6543 }
+  storage:
+    gc: { enabled: "true", interval: "5m", grace: "15m" }
+  decisions:
+    enabled: "true"
+    directory: data/decisions/store
+    retention: "7d"
+  events:
+    enabled: "true"
+    directory: data/events/store
+    retention: "90d"
+
+dataPlane:
+  public:
+    http: { enabled: true, addr: 127.0.0.1:7543 }
+    grpc: { enabled: true, addr: 127.0.0.1:7543 }
+  mirrors:
+    enabled: "true"
+    interval: "2s"
+    timeout: "1m"
+    parallelism: "4"
+  decisions:
+    cache: { partitions: "16", bytes: "64M" }
+    max_evaluations: "64"
+    log:
+      enabled: "true"
+      server: { url: "http://127.0.0.1:6543" }
+      spool: { directory: data/decisions/spool, bytes: "64M", age: "24h" }
+      batch: { bytes: "256k", interval: "1s" }
+      mode: required
+      sample: { permits: "1.0" }
+      include:
+        subject_properties: []
+        resource_properties: []
+        context: []
+  events:
+    enabled: "true"
+    directory: data/events
+    stream:
+      max_bytes: "1G"
+      segment_bytes: "32M"
+      max_record_bytes: "1M"
+      group_commit_max_delay: "5ms"
+    retention:
+      minimum: "48h"
+      allowed_lateness: "5m"
+      clock_skew: "30s"
+    destination: { url: "http://127.0.0.1:6543" }
+    pull: { mode: local }
+
+operations:
+  keys:
+    enabled: true
+    publish_ahead: 5m
+    rotate_every: 1h
+    retain: 1d
+  secrets: { provider: directory, coordinator_root_ref: zone-root }
+  audit:
+    sink: file
+    retention: 7d
+    pseudonym:
+      enabled: true
+      key_ref: audit-pseudonym
+      key_version: "v1"

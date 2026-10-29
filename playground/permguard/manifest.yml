@@ -1,0 +1,40 @@
+# Copyright (c) 2022 Nitro Agility S.r.l.
+# SPDX-License-Identifier: Apache-2.0
+
+metadata:
+  kind: policy
+  name: atlas-commerce-order-platform
+  description: Layered authorization for payments, order operations, and temporal refund release.
+  author: Nitro Agility S.r.l.
+  license: Apache-2.0
+
+runtimes:
+  rego:
+    language: { name: rego, constraint: ">=1.0.0" }
+    engine: { name: permguard, constraint: ">=0.1.0 <0.2.0" }
+  cedar:
+    language: { name: cedar, constraint: ">=4.0.0" }
+    engine: { name: permguard, constraint: ">=0.1.0 <0.2.0" }
+  dogwood:
+    language: { name: dogwood, constraint: ">=1.0.0" }
+    engine: { name: permguard, constraint: ">=0.1.0 <0.2.0" }
+
+partitions:
+  payment-api:
+    runtime: rego
+    schema: false
+  order-operations:
+    runtime: cedar
+    schema: true
+    input: { type: permguard.cedar.entities.v1, required: true }
+  refund-workflow:
+    runtime: dogwood
+    artifacts:
+      - { type: permguard.dogwood.action-schema.v1, required: true }
+      - { type: permguard.dogwood.event-schema.v1, required: false }
+    input: { type: permguard.dogwood.event.v1, required: true }
+
+profiles:
+  gateway: { type: permguard.api.pdp.native.v1, partitions: [payment-api] }
+  operations: { type: permguard.api.pdp.native.v1, partitions: [order-operations] }
+  refund: { type: permguard.api.pdp.temporal.v1alpha1, partitions: [refund-workflow] }

@@ -1,0 +1,31 @@
+{
+  "store": { "zone": "commerce", "ledger": "order-platform", "profile": "refund" },
+  "event": {
+    "type": "permguard.dogwood.event.v1",
+    "data": {
+      "event_id": "demo-risk-review-approved",
+      "kind": "response",
+      "action": "AtlasCommerce::Action::RiskReviewApproved",
+      "principal": "AtlasCommerce::Workflow::\"refund-orchestrator\"",
+      "resource": "AtlasCommerce::Order::\"order-2026-1048\"",
+      "logged": {
+        "input": {
+          "orderId": "order-2026-1048",
+          "caseId": "refund-case-443",
+          "amountCents": 4900,
+          "currency": "EUR"
+        },
+        "output": { "riskScore": 18 }
+      },
+      "request_context": {
+        "input": {
+          "orderId": "order-2026-1048",
+          "caseId": "refund-case-443",
+          "amountCents": 4900,
+          "currency": "EUR"
+        }
+      },
+      "occurred_at": "2026-10-29T10:00:10Z"
+    }
+  }
+}

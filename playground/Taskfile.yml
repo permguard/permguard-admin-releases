@@ -1,0 +1,149 @@
+# Copyright (c) 2022 Nitro Agility S.r.l.
+# SPDX-License-Identifier: Apache-2.0
+
+version: "3"
+
+vars:
+  PERMGUARD_REPO: "{{.TASKFILE_DIR}}/../../permguard"
+  PERMGUARD_BIN: "{{.PERMGUARD_REPO}}/target/debug/permguard"
+  SERVER_BIN: "{{.PERMGUARD_REPO}}/target/debug/permguard-all-in-one"
+  COMPOSE: docker compose -f compose.yml
+  REGISTRY: '{{.PERMGUARD_REGISTRY | default "permguard"}}'
+  VERSION: '{{.PERMGUARD_VERSION | default "latest"}}'
+
+tasks:
+  build:
+    desc: Build the Permguard CLI and all-in-one server used by the playground.
+    preconditions:
+      - sh: test -f "{{.PERMGUARD_REPO}}/Cargo.toml"
+        msg: Check out the permguard repository beside permguard-admin-releases.
+    cmds:
+      - >-
+        cargo build --manifest-path {{.PERMGUARD_REPO}}/Cargo.toml
+        -p permguard-cli -p permguard-all-in-one --bins
+
+  check:
+    desc: Validate the ledger and run its Rego, Cedar, and Dogwood tests offline.
+    deps: [build]
+    cmds:
+      - "{{.PERMGUARD_BIN}} -w permguard validate"
+      - "{{.PERMGUARD_BIN}} -w permguard test"
+
+  server:
+    desc: Run the experimental all-in-one server in the foreground.
+    deps: [build]
+    cmds:
+      - "{{.SERVER_BIN}} permguard/server.yml"
+
+  up:
+    desc: Start the all-in-one server, create the catalog, and apply the demo ledger.
+    deps: [build]
+    cmds:
+      - ./permguard/scripts/start.sh "{{.SERVER_BIN}}" permguard/server.yml
+      - ./permguard/scripts/bootstrap.sh "{{.PERMGUARD_BIN}}" permguard
+
+  demo:
+    desc: Bring the playground up and generate native decisions plus a refund workflow trace.
+    deps: [up]
+    cmds:
+      - ./permguard/scripts/run-demo.sh "{{.PERMGUARD_BIN}}" permguard
+
+  logs:
+    desc: Follow the all-in-one server log.
+    cmds:
+      - tail -f permguard/server.log
+
+  decisions:
+    desc: Show the durable Host run containing the playground's decision log.
+    deps: [build]
+    cmds:
+      - ./permguard/scripts/list-stream.sh "{{.PERMGUARD_BIN}}" decisions
+
+  events:
+    desc: Show the durable Host run containing the playground's temporal events.
+    deps: [build]
+    cmds:
+      - ./permguard/scripts/list-stream.sh "{{.PERMGUARD_BIN}}" events
+
+  down:
+    desc: Stop the background all-in-one server started by playground:up.
+    cmds:
+      - ./permguard/scripts/stop.sh
+
+  reset:
+    desc: Stop the server and remove only ignored playground runtime state.
+    prompt: This removes the playground catalog, logs, events, decisions, and generated keys. Continue?
+    cmds:
+      - ./permguard/scripts/stop.sh
+      - rm -rf permguard/.volume permguard/.permguard
+
+  docker:pull:
+    desc: Pull the selected Permguard image and build the matching CLI toolbox.
+    preconditions:
+      - sh: docker compose version >/dev/null 2>&1
+        msg: Install Docker Desktop or Docker Engine with the Compose plugin.
+    cmds:
+      - "{{.COMPOSE}} pull permguard"
+      - "{{.COMPOSE}} build --pull toolbox"
+
+  docker:up:
+    desc: Pull and start the official all-in-one image, then wait for discovery.
+    deps: [docker:pull]
+    cmds:
+      - "{{.COMPOSE}} up -d permguard"
+      - "{{.COMPOSE}} run --rm toolbox wait"
+
+  docker:bootstrap:
+    desc: Start Permguard and publish the complete Atlas Commerce policy ledger.
+    deps: [docker:up]
+    cmds:
+      - "{{.COMPOSE}} run --rm toolbox bootstrap"
+
+  docker:demo:
+    desc: Bootstrap the Docker server, generate decisions and Dogwood events, and show both streams.
+    deps: [docker:bootstrap]
+    cmds:
+      - "{{.COMPOSE}} run --rm toolbox demo"
+
+  docker:check:
+    desc: Validate and test the policy ledger with the official containerized CLI.
+    deps: [docker:up]
+    cmds:
+      - "{{.COMPOSE}} run --rm toolbox check"
+
+  docker:decisions:
+    desc: Show the durable decision stream stored in the Docker volume.
+    deps: [docker:up]
+    cmds:
+      - "{{.COMPOSE}} run --rm toolbox decisions"
+
+  docker:events:
+    desc: Show the durable Dogwood event stream stored in the Docker volume.
+    deps: [docker:up]
+    cmds:
+      - "{{.COMPOSE}} run --rm toolbox events"
+
+  docker:logs:
+    desc: Follow the containerized all-in-one server log.
+    cmds:
+      - "{{.COMPOSE}} logs -f permguard"
+
+  docker:down:
+    desc: Stop the Docker playground while preserving its named data volume.
+    cmds:
+      - "{{.COMPOSE}} down --remove-orphans"
+
+  docker:reset:
+    desc: Stop the Docker playground and delete its catalog, decisions, events, and keys.
+    prompt: This permanently deletes the playground Docker volume. Continue?
+    cmds:
+      - "{{.COMPOSE}} down --volumes --remove-orphans"
+
+  docker:destroy:
+    aliases: [docker:uninstall]
+    desc: Uninstall the Docker playground, including its data volume and selected Permguard images.
+    prompt: This deletes every playground container, network, volume, and selected Permguard image. Continue?
+    cmds:
+      - "{{.COMPOSE}} --profile tools down --volumes --remove-orphans --rmi all"
+      - cmd: docker image rm "{{.REGISTRY}}/cli:{{.VERSION}}"
+        ignore_error: true

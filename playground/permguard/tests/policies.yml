@@ -1,0 +1,37 @@
+# Copyright (c) 2022 Nitro Agility S.r.l.
+# SPDX-License-Identifier: Apache-2.0
+
+- name: checkout captures exactly the amount authorized by the PSP
+  request: ../requests/payment-capture-permit.json
+  expect: { decision: permit, policies: [payment-capture-boundary] }
+
+- name: an untrusted integration cannot over-capture a payment
+  request: ../requests/payment-capture-deny.json
+  expect: { decision: deny, policies: [] }
+
+- name: merchant finance refunds a paid order with MFA
+  request: ../requests/order-refund-permit.json
+  expect: { decision: permit, policies: [merchant-finance-refunds] }
+
+- name: customer support cannot issue a refund
+  request: ../requests/order-refund-deny.json
+  expect: { decision: deny, policies: [] }
+
+- name: a refund cannot be released before workflow approval
+  request: ../events/release-before-review.json
+  expect: { decision: deny, policies: [] }
+
+- name: a requested and risk-approved refund can be released
+  events:
+    - ../events/refund-requested.json
+    - ../events/risk-review-approved.json
+  request: ../events/release-after-review.json
+  expect: { decision: permit }
+
+- name: cancelling an approved refund prevents release
+  events:
+    - ../events/refund-requested.json
+    - ../events/risk-review-approved.json
+    - ../events/refund-cancelled.json
+  request: ../events/release-after-cancellation.json
+  expect: { decision: deny }

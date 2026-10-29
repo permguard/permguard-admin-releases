@@ -1,0 +1,20 @@
+// Copyright (c) 2022 Nitro Agility S.r.l.
+// SPDX-License-Identifier: Apache-2.0
+
+// Releasing money requires both a recent refund request and a more recent risk
+// approval for the same order. The event schema pins the history to one workflow
+// principal so unrelated tenants and concurrent cases cannot contribute evidence.
+@id("release_after_recent_risk_approval")
+permit (
+    principal,
+    action == AtlasCommerce::Action::"ReleaseRefund",
+    resource
+)
+when temporal {
+    formerly within 24h AtlasCommerce::Action::"RefundRequested"::response{
+        input.orderId: context.input.orderId
+    }
+    && formerly within 2h AtlasCommerce::Action::"RiskReviewApproved"::response{
+        input.orderId: context.input.orderId
+    }
+};
