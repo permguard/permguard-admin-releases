@@ -346,3 +346,5 @@ playground/permguard/*.pid
 playground/permguard/*.log
 playground/workspace/*
 !playground/workspace/.keep
+# The workspace's benchmark suites are sources: the Benchmarks page reads them from there.
+!playground/workspace/benchmarks/

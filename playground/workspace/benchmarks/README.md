@@ -5,7 +5,7 @@
 
 Suites for the *Benchmarks* page of Permguard Admin, under Policy Evaluations.
 Each folder holds a `suite.yml` and the request documents it names.
-Open the playground's `workspace/` folder in Permguard Admin and the Benchmarks page lists them at once, beside the workspace; pick one and start it against the `commerce/order-platform` ledger of this playground.
+They live in the workspace's own `benchmarks/` folder, the only place the Benchmarks page reads suites from: open the playground's `workspace/` folder in Permguard Admin and they are listed at once; pick one and start it against the `commerce/order-platform` ledger of this playground.
 
 | Suite           | What it simulates                                                                   | Calls    |
 | --------------- | ----------------------------------------------------------------------------------- | -------- |
