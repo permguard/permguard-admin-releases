@@ -218,7 +218,7 @@ brew trust permguard/tap      # once: Homebrew 7 loads casks only from trusted t
 brew install permguard/tap/permguard-admin
 ```
 
-It installs the command line too, which Permguard Admin needs.
+Nothing else is needed: the command line is inside Permguard Admin.
 To install a given version, `brew install permguard/tap/permguard-admin@0.1.0`; to update, `brew upgrade permguard-admin`.
 
 ### With one command
@@ -283,16 +283,9 @@ If your system asks for confirmation the first time you open the application, co
 
 ## Before you start
 
-Permguard Admin works with the Permguard command line, which it uses to talk to your servers.
-Installed with Homebrew, it is already there; otherwise install it first:
-
-```sh
-brew trust permguard/tap      # once, if not done already
-brew install permguard/tap/permguard-cli
-```
-
-Other ways to install it are in the [Permguard documentation](https://docs.permguard.com/).
-Then start Permguard Admin, choose a folder for your workspace, and connect it to a Permguard server: on your own computer, it finds the local one by itself.
+Permguard Admin needs nothing else installed: it carries the Permguard command line inside it, the same code, at the version it was built with.
+The command line stays useful in a terminal, and installs on its own; see the [Permguard documentation](https://docs.permguard.com/).
+Start Permguard Admin, choose a folder for your workspace, and connect it to a Permguard server: on your own computer, it finds the local one by itself.
 
 <p align="center">
   <img src="assets/screens/home.png" alt="The welcome page: open a workspace, with your recent workspaces listed below." width="820">
