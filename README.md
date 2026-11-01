@@ -17,13 +17,13 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 </p>
 
 <p align="center">
-  <img src="assets/diagrams/deployment.png" alt="The deployment of a Permguard server, drawn by Permguard Admin from what the server publishes: Permguard Admin reaches the Host listener on 5443 over HTTP; inside the Server Host, the Control Plane on 6443 mirrors policies to the Data Plane on 7443, which ships decisions and events back; the Data Plane serves Cedar, Dogwood and Rego; below, the listeners control-http-grpc, data-http-grpc, host-api and telemetry." width="820">
+  <img src="assets/diagrams/deployment.png" alt="The deployment of a Permguard server, drawn by Permguard Admin from what the server publishes: Permguard Admin reaches the Host listener on 64719 over HTTP; inside the Server Host, the Control Plane on 64720 mirrors policies to the Data Plane on 64721, which ships decisions and events back; the Data Plane serves Cedar, Dogwood and Rego; below, the listeners control-http-grpc, data-http-grpc, host-api and telemetry." width="820">
 </p>
 
 <p align="center"><sub>Your server, drawn live: every plane, port, listener and flow, and how policies, decisions and events move between them.</sub></p>
 
 <p align="center">
-  <img src="assets/diagrams/ledger-diagrams.png" alt="Two ledger files as diagrams. Left, the manifest of mission-control: the profiles api, app and temporal point to the partitions api-gateway, mission-app and launch-window, which run on Rego, Cedar and Dogwood. Right, a Cedar schema: the actions BadgeIn, BadgeOut and Launch link their principal Nebula::Operator and their resource Nebula::Console, beside the input, output and context types." width="820">
+  <img src="assets/diagrams/ledger-diagrams.png" alt="Two ledger files as diagrams. Left, the manifest of order-platform: the profiles gateway, operations and refund point to the partitions order-operations, payment-api and refund-workflow, which run on Cedar, Rego and Dogwood. Right, a Cedar schema: the actions refund and view link their principal Operator and their resource Order, beside the entities Merchant and Role." width="820">
 </p>
 
 <p align="center"><sub>Your policies, drawn: which profile asks which partition and runtime, and what each action is allowed to touch.</sub></p>
@@ -40,7 +40,7 @@ Connect it to your Control Planes and manage them from one window: the server th
 No terminal, no curl, no guessing.
 
 <p align="center">
-  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane, active, with its transport, TLS, version and round trip, and a map of the Host, the Control Plane and the Data Plane." width="820">
+  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane at 127.0.0.1:64719, active, over HTTP with mutual TLS, with its version, its round trip, a small topology of the Host, the Control Plane and the Data Plane, and a map of the surfaces to open." width="820">
 </p>
 
 ## What you can do
@@ -55,7 +55,7 @@ Permguard Admin draws your server as it really is: the Host, the Control Plane a
 Click anything to read its details, double-click a plane to open it.
 
 <p align="center">
-  <img src="assets/screens/deployment.png" alt="The Deployment view: an all-in-one server with its Host listener, Control Plane, Data Plane and listeners, the flows between them, and the details of the selected Data Plane." width="820">
+  <img src="assets/screens/deployment.png" alt="The Deployment tab of Observe: an all-in-one server, with Permguard Admin reaching the Host listener, the Control Plane and the Data Plane exchanging policy.mirror and decisions.ship · events.ship, the four listeners below, and the facts of the selected Data Plane: its origin, state, interfaces and the languages it serves." width="820">
 </p>
 
 ### Follow every event, live
@@ -66,14 +66,14 @@ Spot a spike, drag across it to zoom in, and the list below shows just those eve
 Open any event to see when it happened, under which policies and commit, and its full payload.
 
 <p align="center">
-  <img src="assets/screens/events.png" alt="The Events page over the last hour: requests, responses and errors on a stacked timeline with two bursts; below, the live stream, newest first, and one event open with its type, times, ledger, profile, commit and history key." width="820">
+  <img src="assets/screens/events.png" alt="The Events page over the last 24 hours: 788 events, 394 requests and 394 responses on a stacked timeline of the day; below, the stream, newest first, and an event of the refund workflow open in the inspector with its type, occurrence and acceptance times, ledger, profile, partition and commit." width="820">
 </p>
 
 <details>
 <summary><b>Zoom into a spike</b></summary>
 
 <p align="center">
-  <img src="assets/screens/events-zoom.png" alt="The Events page zoomed into eleven minutes by dragging on the timeline: the pointer over one bar shows its counts by kind, and the stream lists only the events of that period." width="820">
+  <img src="assets/screens/events-zoom.png" alt="The Events page zoomed by clicking a bar of the timeline to fifteen minutes: 36 events, with Zoom out and Clear focus; the pointer over one bar shows its period and its counts by kind, and the stream lists only the events of that period." width="820">
 </p>
 
 </details>
@@ -84,7 +84,7 @@ Every permit and every deny your data plane records, in one list.
 Search by subject, action, resource or policy, filter by time and outcome, and open any decision to see the policies and the commit behind it.
 
 <p align="center">
-  <img src="assets/screens/decision-logs.png" alt="The Decision logs page: the decisions of the current control plane, newest first, each with its time, ledger, permit or deny, subject, action, resource, the policies that decided it and its latency; one decision is open in full." width="820">
+  <img src="assets/screens/decision-logs.png" alt="The Decision logs page over the last 24 hours: 10,226 decisions, 7,156 permits and 3,070 denies, a p50 of 229 µs and a p95 of 565 µs, on a timeline of the day; below, the records of the control plane local, newest first, each with its time, ledger, outcome, subject, action, resource, policies and latency; the first record is open as JSON." width="820">
 </p>
 
 ### Keep your ledgers at hand
@@ -93,7 +93,7 @@ The Sync Center lists every ledger your control plane serves.
 Clone the ones you care about in one click, and Permguard Admin tells you the moment a new version is published, so you pull it when you are ready.
 
 <p align="center">
-  <img src="assets/screens/sync-center.png" alt="The Sync Center: acme/main-ledger is on this computer and has a new version to pull; acme/payments and globex/gateway are on the server, each ready to clone." width="820">
+  <img src="assets/screens/sync-center.png" alt="The Sync Center of the control plane local: commerce/order-platform is cloned and marked to sync, with Pull and Open; commerce/customer-care, commerce/payments-gateway and commerce/warehouse-fleet are remote, each with Clone." width="820">
 </p>
 
 ### Read your policies as diagrams
@@ -101,7 +101,7 @@ Clone the ones you care about in one click, and Permguard Admin tells you the mo
 Open a manifest or a schema and switch it to Visual: profiles, partitions and runtimes, actions and the entities they act on, laid out as a map you can click through.
 
 <p align="center">
-  <img src="assets/screens/ledger-visual.png" alt="A ledger manifest opened as a diagram: three profiles pointing to their partitions and runtimes, one profile selected with its details." width="820">
+  <img src="assets/screens/ledger-visual.png" alt="The manifest of the order-platform ledger opened in Visual: profiles gateway, operations and refund, partitions order-operations, payment-api and refund-workflow, runtimes Cedar, Rego and Dogwood; the refund-workflow partition is selected and its facts name its kind, its fields and the runtime it points to." width="820">
 </p>
 
 ### Read every change to your policies
@@ -110,14 +110,14 @@ Open a ledger to browse its policies, and its history to see who changed what, w
 Every commit shows its diff, line by line.
 
 <p align="center">
-  <img src="assets/screens/ledger-commit.png" alt="A commit of main-ledger, owners: contractors may not write, with the change to cedar/document-owners.cedar shown as a diff." width="820">
+  <img src="assets/screens/ledger-commit.png" alt="The commit refunds: four eyes from EUR 250, down from EUR 500, in the ledger order-platform: one file changed, order-operations/high-value-refund-four-eyes.cedar, shown as a unified diff that lowers the threshold from 50000 to 25000 cents." width="820">
 </p>
 
 <details>
 <summary><b>Browse the policies of a ledger</b></summary>
 
 <p align="center">
-  <img src="assets/screens/ledger-files.png" alt="The files of main-ledger: the manifest, the Cedar policies and schema, and the Rego policy; one Cedar policy is open with syntax highlighting." width="820">
+  <img src="assets/screens/ledger-files.png" alt="The Files tab of order-platform: a tree with manifest.yml and the partitions order-operations, payment-api and refund-workflow, with their Cedar, Rego and Dogwood files and schemas; merchant-finance-refunds.cedar is open in the code viewer, tagged as a policy." width="820">
 </p>
 
 </details>
@@ -128,7 +128,7 @@ Write a request, or import one from a JSON file, pick the ledger and the profile
 The answer comes back next to it, with the policies that decided it, how long it took, and the command line to ask the same thing again from a script.
 
 <p align="center">
-  <img src="assets/screens/evaluation.png" alt="The Policy Decision Point page: a request for User alice to read Document budget-2026, and the answer of the data plane: permit, by document-readers and gateway-access, in 2 ms." width="820">
+  <img src="assets/screens/evaluation.png" alt="The Policy Decision Point page: a request imported from the Refund desk suite, the Operator carla.finance refunding an order in commerce/order-platform under the operations profile, and the answer of the data plane, permit, by the policy that allowed it, in 3 ms." width="820">
 </p>
 
 ### Load-test your policies
@@ -139,14 +139,14 @@ Every answer is checked against the decision and the policies it should get, so 
 The playground ships three suites to start from.
 
 <p align="center">
-  <img src="assets/screens/benchmarks.png" alt="The Benchmarks page after the Refund desk suite: 2,500 calls, a median of 1.29 ms and a p95 of 3.27 ms, no errors, no unexpected decisions, and the verdict Passed, with calls per second and response time over the run." width="820">
+  <img src="assets/screens/benchmarks.png" alt="The Benchmarks page after a run of the Refund desk suite against commerce/order-platform: 2,500 calls in 25 rounds with 8 in flight, 51 calls per second, latency p95 4.53 ms with p50 2.35 ms, no errors, no unexpected decisions, a 0.0% failure rate and the verdict Passed; below, the calls per second and the response time over the run." width="820">
 </p>
 
 <details>
 <summary><b>Every request of the suite, with its own figures</b></summary>
 
 <p align="center">
-  <img src="assets/screens/benchmarks-mix.png" alt="The Mix of the Refund desk suite: each request with the decision and policies it expects, how many calls it made, and its own latency, about 1.3 ms." width="820">
+  <img src="assets/screens/benchmarks-mix.png" alt="The Mix tab of the same run: each of the eight requests of the suite with its profile, weight, the decision and the policy it expects, the calls made, permits, denies, errors, unexpected decisions, and its own p50 and p95, about 2.3 ms and 4 to 5.3 ms." width="820">
 </p>
 
 </details>
@@ -157,7 +157,7 @@ Add your local Control Plane, staging and production side by side, over HTTP or 
 Switch between them from the top bar; a dot tells you at a glance which ones are online.
 
 <p align="center">
-  <img src="assets/screens/control-planes.png" alt="The Control planes page: local, active and current, over HTTP; staging, over gRPC with mutual TLS and a bearer token." width="820">
+  <img src="assets/screens/control-planes.png" alt="The Control planes page: the local all-in-one lab, running, with its ports and sample data; below, the control plane local, active, current and locked because it has a clone, over HTTP with mutual TLS." width="820">
 </p>
 
 ### Make it yours
@@ -288,7 +288,7 @@ The command line stays useful in a terminal, and installs on its own; see the [P
 Start Permguard Admin, choose a folder for your workspace, and connect it to a Permguard server: on your own computer, it finds the local one by itself.
 
 <p align="center">
-  <img src="assets/screens/home.png" alt="The welcome page: open a workspace, with your recent workspaces listed below." width="820">
+  <img src="assets/screens/home.png" alt="The home page outside of a workspace: Open your workspace, with a button to open a folder and the recent workspaces acme-retail, pinned, atlas, home-hub-lab and globex-gateway." width="820">
 </p>
 
 ## Help
