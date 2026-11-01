@@ -122,6 +122,23 @@ Every commit shows its diff, line by line.
 
 </details>
 
+### See every object behind your policies
+
+Open a ledger's *Objects*: every commit, tree and blob it holds, as a list or a graph, each with its digest recomputed from its bytes and the paths it is found at.
+Pick one and read it three ways: decoded from its canonical CBOR, as raw bytes, or as the policy it contains.
+
+<p align="center">
+  <img src="assets/screens/objects.png" alt="The Objects tab of order-platform: 19 objects, 2 commits, 6 trees and 11 blobs, listed with their ids and paths; the blob of order-operations/merchant-finance-refunds.cedar is selected, with its digest recomputed from its bytes, its canonical CBOR encoding, its media type, the file that stores it and the tree that names it; on the right, its CBOR view." width="820">
+</p>
+
+<p align="center">
+  <img src="assets/screens/objects-views.png" alt="The three views of the same blob side by side. CBOR: a map of three pairs, kind blob, media_type application/vnd.permguard.policy.cedar and data of 482 bytes, each with its offset and size. Bytes: the 530 bytes of the object in hex, with their text beside. Content: the Cedar policy merchant-finance-refunds it holds." width="820">
+</p>
+
+<p align="center">
+  <img src="assets/screens/objects-graph.png" alt="The object store of order-platform as a graph: the two commits name their trees, the trees name their sub-trees and blobs; the blob of merchant-finance-refunds.cedar is selected, beside its facts and its content." width="820">
+</p>
+
 ### Ask before you ship
 
 Write a request, or import one from a JSON file, pick the ledger and the profile, and ask your data plane directly.
