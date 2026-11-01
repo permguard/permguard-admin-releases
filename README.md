@@ -17,7 +17,7 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 </p>
 
 <p align="center">
-  <img src="assets/diagrams/deployment.png" alt="The deployment of a Permguard server, drawn by Permguard Admin from what the server publishes: Permguard Admin reaches the Host listener on 64719 over HTTP; inside the Server Host, the Control Plane on 64720 mirrors policies to the Data Plane on 64721, which ships decisions and events back; the Data Plane serves Cedar, Dogwood and Rego; below, the listeners control-http-grpc, data-http-grpc, host-api and telemetry." width="820">
+  <img src="assets/diagrams/deployment.png" alt="The deployment of a Permguard server, drawn by Permguard Admin from what the server publishes: Permguard Admin reaches the Host listener on 5443 over HTTP; inside the Server Host, the Control Plane on 6443 mirrors policies to the Data Plane on 7443, which ships decisions and events back; the Data Plane serves Cedar, Dogwood and Rego; below, the listeners control-http-grpc, data-http-grpc, host-api and telemetry." width="820">
 </p>
 
 <p align="center"><sub>Your server, drawn live: every plane, port, listener and flow, and how policies, decisions and events move between them.</sub></p>
@@ -40,7 +40,7 @@ Connect it to your Control Planes and manage them from one window: the server th
 No terminal, no curl, no guessing.
 
 <p align="center">
-  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane at 127.0.0.1:64719, active, over HTTP with mutual TLS, with its version, its round trip, a small topology of the Host, the Control Plane and the Data Plane, and a map of the surfaces to open." width="820">
+  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane at 127.0.0.1:5443, active, over HTTP with mutual TLS, with its version, its round trip, a small topology of the Host, the Control Plane and the Data Plane, and a map of the surfaces to open." width="820">
 </p>
 
 ## What you can do
@@ -66,14 +66,14 @@ Spot a spike, drag across it to zoom in, and the list below shows just those eve
 Open any event to see when it happened, under which policies and commit, and its full payload.
 
 <p align="center">
-  <img src="assets/screens/events.png" alt="The Events page over the last 24 hours: 788 events, 394 requests and 394 responses on a stacked timeline of the day; below, the stream, newest first, and an event of the refund workflow open in the inspector with its type, occurrence and acceptance times, ledger, profile, partition and commit." width="820">
+  <img src="assets/screens/events.png" alt="The Events page over the last 24 hours: 796 events, 398 requests and 398 responses on a stacked timeline of the day; below, the stream, newest first, and an event of the refund workflow open in the inspector with its type, occurrence and acceptance times, ledger, profile, partition and commit." width="820">
 </p>
 
 <details>
 <summary><b>Zoom into a spike</b></summary>
 
 <p align="center">
-  <img src="assets/screens/events-zoom.png" alt="The Events page zoomed by clicking a bar of the timeline to fifteen minutes: 36 events, with Zoom out and Clear focus; the pointer over one bar shows its period and its counts by kind, and the stream lists only the events of that period." width="820">
+  <img src="assets/screens/events-zoom.png" alt="The Events page zoomed by clicking a bar of the timeline to fifteen minutes: 18 events, with Zoom out and Clear focus; the pointer over one bar shows its period and its counts by kind, and the stream lists only the events of that period." width="820">
 </p>
 
 </details>
@@ -84,7 +84,7 @@ Every permit and every deny your data plane records, in one list.
 Search by subject, action, resource or policy, filter by time and outcome, and open any decision to see the policies and the commit behind it.
 
 <p align="center">
-  <img src="assets/screens/decision-logs.png" alt="The Decision logs page over the last 24 hours: 10,226 decisions, 7,156 permits and 3,070 denies, a p50 of 229 µs and a p95 of 565 µs, on a timeline of the day; below, the records of the control plane local, newest first, each with its time, ledger, outcome, subject, action, resource, policies and latency; the first record is open as JSON." width="820">
+  <img src="assets/screens/decision-logs.png" alt="The Decision logs page over the last 24 hours: 12,828 decisions, 9,015 permits and 3,813 denies, a p50 of 251 µs and a p95 of 570 µs, on a timeline of the day; below, the records of the control plane local, newest first, each with its time, ledger, outcome, subject, action, resource, policies and latency; the first record is open as JSON." width="820">
 </p>
 
 ### Keep your ledgers at hand
@@ -93,7 +93,7 @@ The Sync Center lists every ledger your control plane serves.
 Clone the ones you care about in one click, and Permguard Admin tells you the moment a new version is published, so you pull it when you are ready.
 
 <p align="center">
-  <img src="assets/screens/sync-center.png" alt="The Sync Center of the control plane local: commerce/order-platform is cloned and marked to sync, with Pull and Open; commerce/customer-care, commerce/payments-gateway and commerce/warehouse-fleet are remote, each with Clone." width="820">
+  <img src="assets/screens/sync-center.png" alt="The Sync Center of the control plane local: commerce/order-platform is cloned and up to date, with Open; commerce/customer-care, commerce/payments-gateway and commerce/warehouse-fleet are remote, each with Clone." width="820">
 </p>
 
 ### Read your policies as diagrams
@@ -156,14 +156,14 @@ Every answer is checked against the decision and the policies it should get, so 
 The playground ships three suites to start from.
 
 <p align="center">
-  <img src="assets/screens/benchmarks.png" alt="The Benchmarks page after a run of the Refund desk suite against commerce/order-platform: 2,500 calls in 25 rounds with 8 in flight, 51 calls per second, latency p95 4.53 ms with p50 2.35 ms, no errors, no unexpected decisions, a 0.0% failure rate and the verdict Passed; below, the calls per second and the response time over the run." width="820">
+  <img src="assets/screens/benchmarks.png" alt="The Benchmarks page after a run of the Refund desk suite against commerce/order-platform: 2,500 calls in 25 rounds with 2 in flight, 50 calls per second, latency p95 2.48 ms with p50 1.19 ms, no errors, no unexpected decisions, a 0.0% failure rate and the verdict Passed; below, the calls per second and the response time over the run." width="820">
 </p>
 
 <details>
 <summary><b>Every request of the suite, with its own figures</b></summary>
 
 <p align="center">
-  <img src="assets/screens/benchmarks-mix.png" alt="The Mix tab of the same run: each of the eight requests of the suite with its profile, weight, the decision and the policy it expects, the calls made, permits, denies, errors, unexpected decisions, and its own p50 and p95, about 2.3 ms and 4 to 5.3 ms." width="820">
+  <img src="assets/screens/benchmarks-mix.png" alt="The Mix tab of the same run: each of the eight requests of the suite with its profile, weight, the decision and the policy it expects, the calls made, permits, denies, errors, unexpected decisions, and its own p50 and p95, about 1.2 ms and 2.4 to 3 ms." width="820">
 </p>
 
 </details>
