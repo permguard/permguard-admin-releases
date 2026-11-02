@@ -1,0 +1,104 @@
+# Copyright (c) 2022 Nitro Agility S.r.l.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Policy smoke
+description: >-
+  Every decision the Atlas ledger makes, once each, one call at a time: the gateway's captures and
+  order reads in Rego, the back office's views and refunds in Cedar. Run it after a publish to see
+  that every policy still decides as intended before loading the data plane.
+
+load:
+  concurrency: 1
+  rounds: 1
+
+on_failure: continue
+
+thresholds:
+  errors: 0
+  unexpected: 0
+
+mix:
+  - name: checkout captures the full authorized amount
+    request: requests/capture-authorized.json
+    weight: 1
+    expect: { decision: permit, policies: [payment-capture-boundary] }
+
+  - name: checkout captures part of a larger authorization
+    request: requests/capture-partial.json
+    weight: 1
+    expect: { decision: permit, policies: [payment-capture-boundary] }
+
+  - name: the support integration reads an order of its merchant
+    request: requests/read-order-support.json
+    weight: 1
+    expect: { decision: permit, policies: [payment-capture-boundary] }
+
+  - name: a capture above the authorized amount is refused
+    request: requests/capture-over-authorized.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: a capture against another merchant's authorization is refused
+    request: requests/capture-cross-merchant.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: a staging workload without verified mTLS cannot capture
+    request: requests/capture-without-mtls.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: a retry without an idempotency key cannot capture
+    request: requests/capture-without-idempotency.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: a token scoped to orders cannot capture payments
+    request: requests/capture-wrong-scope.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: the support integration cannot read another merchant's order
+    request: requests/read-order-cross-merchant.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: support views an order of its merchant
+    request: requests/support-views-order.json
+    weight: 1
+    expect: { decision: permit, policies: [merchant-support-readers] }
+
+  - name: an analyst refunds a small amount with MFA
+    request: requests/analyst-refunds-with-mfa.json
+    weight: 1
+    expect: { decision: permit, policies: [merchant-finance-refunds] }
+
+  - name: a finance manager refunds a high-value order
+    request: requests/manager-refunds-high-value.json
+    weight: 1
+    expect: { decision: permit, policies: [merchant-finance-refunds] }
+
+  - name: an analyst cannot refund above the four-eyes limit
+    request: requests/analyst-refunds-high-value.json
+    weight: 1
+    expect: { decision: deny, policies: [high-value-refund-four-eyes] }
+
+  - name: a refund without MFA is refused
+    request: requests/analyst-refunds-without-mfa.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: support cannot issue a refund
+    request: requests/support-attempts-refund.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: support cannot open another merchant's order
+    request: requests/support-views-other-merchant.json
+    weight: 1
+    expect: { decision: deny, policies: [] }
+
+  - name: an order not yet paid cannot be refunded
+    request: requests/analyst-refunds-unpaid-order.json
+    weight: 1
+    expect: { decision: deny, policies: [] }

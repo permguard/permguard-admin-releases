@@ -1,0 +1,33 @@
+{
+  "profile": "gateway",
+  "subject": {
+    "type": "ServiceAccount",
+    "id": "reporting-batch",
+    "properties": {
+      "service": "checkout-service",
+      "merchant": "merchant-eu-42",
+      "mtls_verified": true,
+      "scopes": [
+        "orders:read"
+      ]
+    }
+  },
+  "action": {
+    "name": "api:capturePayment"
+  },
+  "resource": {
+    "type": "PaymentAuthorization",
+    "id": "auth-8f91",
+    "properties": {
+      "merchant": "merchant-eu-42",
+      "authorized_amount_cents": 12900
+    }
+  },
+  "context": {
+    "method": "POST",
+    "route": "/payments/auth-8f91/capture",
+    "amount_cents": 12900,
+    "currency": "EUR",
+    "idempotency_key": "order-2026-1048:capture:4"
+  }
+}
