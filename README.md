@@ -17,7 +17,7 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 </p>
 
 <p align="center">
-  <img src="assets/diagrams/deployment.png" alt="The deployment of a Permguard server, drawn by Permguard Admin from what the server publishes: Permguard Admin reaches the Host listener on 5443 over HTTP; inside the Server Host, the Control Plane on 6443 mirrors policies to the Data Plane on 7443, which ships decisions and events back; the Data Plane serves Cedar, Dogwood and Rego; below, the listeners control-http-grpc, data-http-grpc, host-api and telemetry." width="820">
+  <img src="assets/diagrams/deployment.png" alt="The deployment of a Permguard server, drawn by Permguard Admin from what the server publishes: Permguard Admin reaches the Host listener over HTTP; inside the Server Host, the Control Plane mirrors policies to the Data Plane, which ships decisions and events back; the Data Plane serves Cedar, Dogwood and Rego; below, the listeners control-http-grpc, data-http-grpc, host-api and telemetry." width="820">
 </p>
 
 <p align="center"><sub>Your server, drawn live: every plane, port, listener and flow, and how policies, decisions and events move between them.</sub></p>
@@ -37,10 +37,10 @@ SPDX-License-Identifier: LicenseRef-Permguard-Admin-Binary
 
 Permguard Admin is for the people who administer [Permguard](https://github.com/permguard/permguard).
 Connect it to your Control Planes and manage them from one window: the server that hosts them, the ledgers and policies they serve, the events and decisions they record.
-No terminal, no curl, no guessing.
+No curl, no guessing: and when you want the command line, every ledger has its own, sandboxed.
 
 <p align="center">
-  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane at 127.0.0.1:5443, active, over HTTP with mutual TLS, with its version, its round trip, a small topology of the Host, the Control Plane and the Data Plane, and a map of the surfaces to open." width="820">
+  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane, active, over HTTP with mutual TLS, with its version, its round trip, a small topology of the Host, the Control Plane and the Data Plane, and a map of the surfaces to open." width="820">
 </p>
 
 ## What you can do
@@ -73,7 +73,7 @@ Open any event to see when it happened, under which policies and commit, and its
 <summary><b>Zoom into a spike</b></summary>
 
 <p align="center">
-  <img src="assets/screens/events-zoom.png" alt="The Events page zoomed by clicking a bar of the timeline to fifteen minutes: 18 events, with Zoom out and Clear focus; the pointer over one bar shows its period and its counts by kind, and the stream lists only the events of that period." width="820">
+  <img src="assets/screens/events-zoom.png" alt="The Events page zoomed by clicking a bar of the timeline to fifteen minutes: 24 events, with Zoom out and Clear focus; the pointer over one bar shows its period and its counts by kind, and the stream lists only the events of that period." width="820">
 </p>
 
 </details>
@@ -84,7 +84,16 @@ Every permit and every deny your data plane records, in one list.
 Search by subject, action, resource or policy, filter by time and outcome, and open any decision to see the policies and the commit behind it.
 
 <p align="center">
-  <img src="assets/screens/decision-logs.png" alt="The Decision logs page over the last 24 hours: 12,828 decisions, 9,015 permits and 3,813 denies, a p50 of 251 µs and a p95 of 570 µs, on a timeline of the day; below, the records of the control plane local, newest first, each with its time, ledger, outcome, subject, action, resource, policies and latency; the first record is open as JSON." width="820">
+  <img src="assets/screens/decision-logs.png" alt="The Decision logs page over the last 24 hours: 10,313 decisions, 7,217 permits and 3,096 denies, a p50 of 229 µs and a p95 of 566 µs, on a timeline of the day; below, the records of the control plane local, newest first, each with its time, ledger, outcome, subject, action, resource, policies and latency; the first record is open as JSON." width="820">
+</p>
+
+### Every zone and ledger, in one place
+
+A Control Plane holds zones, and a zone holds ledgers.
+See them as a table or a map, filtered by what you have cloned and what is still remote, and open any of them in one click.
+
+<p align="center">
+  <img src="assets/screens/zones.png" alt="The Zones tab of the Control plane page: the zone commerce with its four ledgers, customer-care, order-platform, payments-gateway and warehouse-fleet, one local and three remote; order-platform is selected, with its identity, server and workspace properties, and beside them the JSON the server answered for it." width="820">
 </p>
 
 ### Keep your ledgers at hand
@@ -93,7 +102,7 @@ The Sync Center lists every ledger your control plane serves.
 Clone the ones you care about in one click, and Permguard Admin tells you the moment a new version is published, so you pull it when you are ready.
 
 <p align="center">
-  <img src="assets/screens/sync-center.png" alt="The Sync Center of the control plane local: commerce/order-platform is cloned and up to date, with Open; commerce/customer-care, commerce/payments-gateway and commerce/warehouse-fleet are remote, each with Clone." width="820">
+  <img src="assets/screens/sync-center.png" alt="The Sync Center of the control plane local, with its search and state filters: commerce/order-platform is cloned and up to date, with Pull and Open; commerce/customer-care, commerce/payments-gateway and commerce/warehouse-fleet are remote, each with Clone." width="820">
 </p>
 
 ### Read your policies as diagrams
@@ -104,20 +113,41 @@ Open a manifest or a schema and switch it to Visual: profiles, partitions and ru
   <img src="assets/screens/ledger-visual.png" alt="The manifest of the order-platform ledger opened in Visual: profiles gateway, operations and refund, partitions order-operations, payment-api and refund-workflow, runtimes Cedar, Rego and Dogwood; the refund-workflow partition is selected and its facts name its kind, its fields and the runtime it points to." width="820">
 </p>
 
+### Write your policies, and publish them
+
+Open a ledger and edit its policies in place, in Cedar, Rego or Dogwood: every file saves itself and is validated as you go, its problems underlined where they are.
+What you changed shows in the tree, added, modified or removed, and *Push* publishes it to your Control Plane with a message.
+
+Every ledger has its own terminal, too, as your code editor has one.
+It is a sandbox: the Permguard command line built into the application, working on this ledger's folder and through this Control Plane's connection, and nothing else.
+`validate`, `plan`, `apply`, `history` and their companions run as you know them; a few file commands, `ls`, `cat`, `touch`, `mkdir` and `rm`, never leave the ledger's folder, and no other program on your computer is ever started.
+
+<p align="center">
+  <img src="assets/screens/terminal.png" alt="An open ledger with local changes: disputed-refund-hold.cedar added and merchant-support-readers.cedar modified, marked A and M in the tree, the folder counting +1 and ~1, the version reading latest + changes and Push enabled; below, the terminal, a sandbox on this ledger, where permguard validate and permguard plan ran: one policy to create, one to update." width="820">
+</p>
+
 ### Read every change to your policies
 
 Open a ledger to browse its policies, and its history to see who changed what, when, and why.
-Every commit shows its diff, line by line.
+Every commit shows its diff, line by line, and every file has its own *History*, any two versions compared, and its *Blame*: who last wrote each line.
 
 <p align="center">
   <img src="assets/screens/ledger-commit.png" alt="The commit refunds: four eyes from EUR 250, down from EUR 500, in the ledger order-platform: one file changed, order-operations/high-value-refund-four-eyes.cedar, shown as a unified diff that lowers the threshold from 50000 to 25000 cents." width="820">
 </p>
 
+<p align="center">
+  <img src="assets/screens/ledger-history.png" alt="The History of merchant-finance-refunds.cedar: three versions, by carla.ricci, luca.bianchi and the lab, each with its message, author and short digest; the newest is open as a split diff that rewrites the opening comment." width="820">
+</p>
+
 <details>
-<summary><b>Browse the policies of a ledger</b></summary>
+<summary><b>Who wrote each line, and the files of a ledger</b></summary>
 
 <p align="center">
-  <img src="assets/screens/ledger-files.png" alt="The Files tab of order-platform: a tree with manifest.yml and the partitions order-operations, payment-api and refund-workflow, with their Cedar, Rego and Dogwood files and schemas; merchant-finance-refunds.cedar is open in the code viewer, tagged as a policy." width="820">
+  <img src="assets/screens/ledger-blame.png" alt="The Blame of merchant-finance-refunds.cedar: each run of lines under the commit that last wrote it, carla.ricci for the opening comment, luca.bianchi for the cap at EUR 2,000, the lab's first publication for the rest." width="820">
+</p>
+
+<p align="center">
+  <img src="assets/screens/ledger-files.png" alt="The Files tab of order-platform: a tree with manifest.yml and the partitions order-operations, payment-api and refund-workflow, with their Cedar, Rego and Dogwood files and schemas; merchant-finance-refunds.cedar is open in the editor, with its History and Blame readings beside Code." width="820">
 </p>
 
 </details>
@@ -128,15 +158,15 @@ Open a ledger's *Objects*: every commit, tree and blob it holds, as a list or a 
 Pick one and read it three ways: decoded from its canonical CBOR, as raw bytes, or as the policy it contains.
 
 <p align="center">
-  <img src="assets/screens/objects.png" alt="The Objects tab of order-platform: 19 objects, 2 commits, 6 trees and 11 blobs, listed with their ids and paths; the blob of order-operations/merchant-finance-refunds.cedar is selected, with its digest recomputed from its bytes, its canonical CBOR encoding, its media type, the file that stores it and the tree that names it; on the right, its CBOR view." width="820">
+  <img src="assets/screens/objects.png" alt="The Objects tab of order-platform: 27 objects, 4 commits, 10 trees and 13 blobs, listed with their ids and paths; the blob of order-operations/merchant-finance-refunds.cedar is selected, with its digest recomputed from its bytes, its canonical CBOR encoding, its media type, the file that stores it and the tree that names it; on the right, its CBOR view." width="820">
 </p>
 
 <p align="center">
-  <img src="assets/screens/objects-views.png" alt="The three views of the same blob side by side. CBOR: a map of three pairs, kind blob, media_type application/vnd.permguard.policy.cedar and data of 482 bytes, each with its offset and size. Bytes: the 530 bytes of the object in hex, with their text beside. Content: the Cedar policy merchant-finance-refunds it holds." width="820">
+  <img src="assets/screens/objects-views.png" alt="The three views of the same blob side by side. CBOR: a map of three pairs, kind blob, media_type application/vnd.permguard.policy.cedar and data of 526 bytes, each with its offset and size. Bytes: the 574 bytes of the object in hex, with their text beside. Content: the Cedar policy merchant-finance-refunds it holds." width="820">
 </p>
 
 <p align="center">
-  <img src="assets/screens/objects-graph.png" alt="The object store of order-platform as a graph: the two commits name their trees, the trees name their sub-trees and blobs; the blob of merchant-finance-refunds.cedar is selected, beside its facts and its content." width="820">
+  <img src="assets/screens/objects-graph.png" alt="The object store of order-platform as a graph: the four commits name their trees, the trees name their sub-trees and blobs; the blob of merchant-finance-refunds.cedar is selected, beside its facts and its content." width="820">
 </p>
 
 ### Ask before you ship
@@ -156,14 +186,14 @@ Every answer is checked against the decision and the policies it should get, so 
 The playground ships three suites to start from.
 
 <p align="center">
-  <img src="assets/screens/benchmarks.png" alt="The Benchmarks page after a run of the Refund desk suite against commerce/order-platform: 2,500 calls in 25 rounds with 2 in flight, 50 calls per second, latency p95 2.48 ms with p50 1.19 ms, no errors, no unexpected decisions, a 0.0% failure rate and the verdict Passed; below, the calls per second and the response time over the run." width="820">
+  <img src="assets/screens/benchmarks.png" alt="The Benchmarks page after a run of the Refund desk suite against commerce/order-platform: 2,500 calls in 25 rounds with 8 in flight, 51 calls per second, latency p95 5.29 ms with p50 2.48 ms, no errors, no unexpected decisions, a 0.0% failure rate and the verdict Passed; below, the calls per second and the response time over the run." width="820">
 </p>
 
 <details>
 <summary><b>Every request of the suite, with its own figures</b></summary>
 
 <p align="center">
-  <img src="assets/screens/benchmarks-mix.png" alt="The Mix tab of the same run: each of the eight requests of the suite with its profile, weight, the decision and the policy it expects, the calls made, permits, denies, errors, unexpected decisions, and its own p50 and p95, about 1.2 ms and 2.4 to 3 ms." width="820">
+  <img src="assets/screens/benchmarks-mix.png" alt="The Mix tab of the same run: each of the eight requests of the suite with its profile, weight, the decision and the policy it expects, the calls made, permits, denies, errors, unexpected decisions, and its own p50 and p95, about 2.5 ms and 4.8 to 5.6 ms." width="820">
 </p>
 
 </details>
@@ -177,13 +207,22 @@ Switch between them from the top bar; a dot tells you at a glance which ones are
   <img src="assets/screens/control-planes.png" alt="The Control planes page: the local all-in-one lab, running, with its ports and sample data; below, the control plane local, active, current and locked because it has a clone, over HTTP with mutual TLS." width="820">
 </p>
 
+### Bring Permguard into your code
+
+The SDKs page shows a developer what to install and what to change: the six SDKs, Go, Java, .NET, Node.js, Python and Rust, and the same check written in the application and then asked of Permguard, side by side.
+
+<p align="center">
+  <img src="assets/screens/sdks.png" alt="The SDKs page: three steps, install the SDK, point it at a PDP, replace the check; the six languages, Go, Java, .NET, Node.js, Python and Rust; and the same check in Go twice, written in the application on the left and asked of Permguard on the right, with the command that installs the SDK." width="820">
+</p>
+
 ### Make it yours
 
 Light, dark, or the one your system uses.
 English, Italiano, Español and Français.
+And when a new version is out, Permguard Admin tells you, and updates itself in one click, its download checked against the release's signature.
 
 <p align="center">
-  <img src="assets/screens/themes.png" alt="The Observe page in dark and light, side by side." width="820">
+  <img src="assets/screens/themes.png" alt="The Observe page split along a diagonal: dark on the left, light on the right." width="820">
 </p>
 
 ## Try a real policy set
@@ -301,7 +340,7 @@ If your system asks for confirmation the first time you open the application, co
 ## Before you start
 
 Permguard Admin needs nothing else installed: it carries the Permguard command line inside it, the same code, at the version it was built with.
-The command line stays useful in a terminal, and installs on its own; see the [Permguard documentation](https://docs.permguard.com/).
+Inside the application it is also the terminal of every ledger; to use the command line in your own shell, install it on its own, see the [Permguard documentation](https://docs.permguard.com/).
 Start Permguard Admin, choose a folder for your workspace, and connect it to a Permguard server: on your own computer, it finds the local one by itself.
 
 <p align="center">
