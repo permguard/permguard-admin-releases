@@ -40,22 +40,22 @@ Connect it to your Control Planes and manage them from one window: the server th
 No curl, no guessing: and when you want the command line, every ledger has its own, sandboxed.
 
 <p align="center">
-  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane, active, over HTTP with mutual TLS, with its version, its round trip, a small topology of the Host, the Control Plane and the Data Plane, and a map of the surfaces to open." width="820">
+  <img src="assets/screens/observe.png" alt="The Observe page: the server of the current control plane, 127.0.0.1:5443, serving, with its transport and TLS, its lifecycle, components, version and round trip, a small topology of the Host with the Authority, Control and Data Planes it hosts, and a map of the surfaces to open." width="820">
 </p>
 
 ## What you can do
 
 <p align="center">
-  <img src="assets/sections.png" alt="Four sections. Explorer, observe: the Host and its planes, the live events, the decision logs. Ledgers, sync: clone with the CLI, pull when the head moves, read files and commits. Evaluations, ask and load: ask the data plane, run real suites as load, check every decision. Settings, connect: control planes, TLS, token files, theme and language." width="820">
+  <img src="assets/sections.png" alt="Five sections. Explorer, observe: the Host and its planes, the live events, the decision logs. Ledgers, sync: clone with the CLI, pull when the head moves, read files and commits. Evaluations, ask and load: ask the data plane, run real suites as load, check every decision. Authority, grant: service accounts, their scopes and keys, the tokens issued. Settings, connect: control planes, TLS, each entry's credential, theme and language." width="820">
 </p>
 
 ### See your deployment at a glance
 
-Permguard Admin draws your server as it really is: the Host, the Control Plane and the Data Plane, their ports and listeners, and how policies, decisions and events flow between them.
+Permguard Admin draws your server as it really is: the Host, the Authority Plane, the Control Plane and the Data Plane, their ports and listeners, and how policies, decisions, events and tokens flow between them.
 Click anything to read its details, double-click a plane to open it.
 
 <p align="center">
-  <img src="assets/screens/deployment.png" alt="The Deployment tab of Observe: an all-in-one server, with Permguard Admin reaching the Host listener, the Control Plane and the Data Plane exchanging policy.mirror and decisions.ship · events.ship, the four listeners below, and the facts of the selected Data Plane: its origin, state, interfaces and the languages it serves." width="820">
+  <img src="assets/screens/deployment.png" alt="The Deployment tab of Observe: an all-in-one server, with Permguard Admin obtaining tokens from the Authority Plane on 8443 and reaching the Host listener over HTTP; the Host listener, the Control Plane and the Data Plane each verify those tokens, the Control Plane and the Data Plane exchange policy.mirror and decisions.ship · events.ship, and the five listeners sit below; beside it, the facts of the selected Authority Plane." width="820">
 </p>
 
 ### Follow every event, live
@@ -198,13 +198,35 @@ The playground ships three suites to start from.
 
 </details>
 
+### Decide who may call Permguard
+
+Every program that calls Permguard is a service account of your Authority Plane: your checkout service, your release pipeline, your nightly export, and Permguard Admin itself.
+Create one, give it exactly the operations it needs, add an access key, and it obtains short-lived tokens that every plane checks by itself.
+See every token issued, revoke one in a click, suspend an account and every token it holds is refused.
+
+<p align="center">
+  <img src="assets/screens/service-accounts.png" alt="The Service Accounts page of the Authority section: five accounts of the entry local, admin the administrator with every operation, billing, checkout-service and ci-release active with their scopes, audit-export suspended; below, the four valid tokens the Authority Plane issued, each with its account, access key, scopes, issue and expiry; on the right, checkout-service open: its scope decision.evaluate on plane/data/*, its access key, last used today, and its token." width="820">
+</p>
+
+<details>
+<summary><b>A secret key is shown once, and never kept</b></summary>
+
+<p align="center">
+  <img src="assets/screens/service-account-key.png" alt="The dialog after adding a key to checkout-service: The secret key, shown once, with the new access key and its secret key, a warning that it is never shown again because the Authority Plane keeps only its hash and this application nothing, and the buttons Save to file and I have stored it." width="820">
+</p>
+
+Copy it or save it to a file only you can read, then confirm you stored it: the Authority Plane keeps only its hash, and Permguard Admin keeps nothing.
+
+</details>
+
 ### Connect to all your Control Planes
 
-Add your local Control Plane, staging and production side by side, over HTTP or gRPC, with TLS, mutual TLS and bearer tokens.
+Add your local Control Plane, staging and production side by side, over HTTP or gRPC, with TLS and mutual TLS, calling each as one of its service accounts, or with a bearer token.
+No server yet? With Docker, Permguard Admin deploys a complete lab on your computer, its own Authority Plane included, and connects to it as its administrator.
 Switch between them from the top bar; a dot tells you at a glance which ones are online.
 
 <p align="center">
-  <img src="assets/screens/control-planes.png" alt="The Control planes page: the local all-in-one lab, running, with its ports and sample data; below, the control plane local, active, current and locked because it has a clone, over HTTP with mutual TLS." width="820">
+  <img src="assets/screens/control-planes.png" alt="The Control planes page: the local lab, a cluster of a Control Plane and two Data Planes, running, with its ports, the Authority Plane on 8443 and sample data; the entry acts as sa:admin, its access key and secret kept in the lab's private folder, with a button to its service accounts; below, the control plane local, active, current and locked because it has a clone." width="820">
 </p>
 
 ### Bring Permguard into your code
