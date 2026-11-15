@@ -1,0 +1,63 @@
+# Copyright (c) 2022 Nitro Agility S.r.l.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Refund desk
+description: >-
+  A back office on a Monday morning. Support agents open orders all day, finance analysts refund
+  small amounts behind MFA, and a finance manager signs off the occasional high-value refund. The
+  rest is what the controls exist for: an analyst over the four-eyes limit, a refund without MFA,
+  support trying to refund, an order of another merchant and an order not yet paid.
+
+load:
+  concurrency: 8
+  rounds: 25
+  warmup: 2
+  pause: 2s
+
+on_failure: continue
+
+thresholds:
+  p95_ms: 40
+  errors: 0
+  unexpected: 0
+
+mix:
+  - name: support views an order of its merchant
+    request: requests/support-views-order.json
+    weight: 40
+    expect: { decision: permit, policies: [merchant-support-readers] }
+
+  - name: an analyst refunds a small amount with MFA
+    request: requests/analyst-refunds-with-mfa.json
+    weight: 25
+    expect: { decision: permit, policies: [merchant-finance-refunds] }
+
+  - name: a finance manager refunds a high-value order
+    request: requests/manager-refunds-high-value.json
+    weight: 5
+    expect: { decision: permit, policies: [merchant-finance-refunds] }
+
+  - name: an analyst cannot refund above the four-eyes limit
+    request: requests/analyst-refunds-high-value.json
+    weight: 8
+    expect: { decision: deny, policies: [high-value-refund-four-eyes] }
+
+  - name: a refund without MFA is refused
+    request: requests/analyst-refunds-without-mfa.json
+    weight: 6
+    expect: { decision: deny, policies: [] }
+
+  - name: support cannot issue a refund
+    request: requests/support-attempts-refund.json
+    weight: 6
+    expect: { decision: deny, policies: [] }
+
+  - name: support cannot open another merchant's order
+    request: requests/support-views-other-merchant.json
+    weight: 6
+    expect: { decision: deny, policies: [] }
+
+  - name: an order not yet paid cannot be refunded
+    request: requests/analyst-refunds-unpaid-order.json
+    weight: 4
+    expect: { decision: deny, policies: [] }
