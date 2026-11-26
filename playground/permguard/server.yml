@@ -57,9 +57,7 @@ dataPlane:
     max_evaluations: "64"
     log:
       enabled: "true"
-      server: { url: "http://127.0.0.1:6443" }
       spool: { directory: data/decisions/spool, bytes: "64M", age: "24h" }
-      batch: { bytes: "256k", interval: "1s" }
       mode: required
       sample: { permits: "1.0" }
       include:
@@ -72,13 +70,12 @@ dataPlane:
     stream:
       max_bytes: "1G"
       segment_bytes: "32M"
-      max_record_bytes: "1M"
+      max_record_bytes: "256K"
       group_commit_max_delay: "5ms"
     retention:
       minimum: "48h"
       allowed_lateness: "5m"
       clock_skew: "30s"
-    destination: { url: "http://127.0.0.1:6443" }
     pull: { mode: local }
 
 operations:
